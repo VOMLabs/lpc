@@ -1,12 +1,12 @@
-package de.ayont.lpc.commands;
+package com.vomlabs.lpcmmx.commands;
 
-import de.ayont.lpc.LPC;
+import com.vomlabs.lpcmmx.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import de.ayont.lpc.LPC;
+import com.vomlabs.lpcmmx.Main;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,9 +21,9 @@ import java.util.List;
 
 public class LPCCommand implements CommandExecutor, TabCompleter {
 
-    private final LPC plugin;
+    private final Main plugin;
 
-    public LPCCommand(LPC plugin) {
+    public LPCCommand(Main plugin) {
         this.plugin = plugin;
     }
 
@@ -37,7 +37,7 @@ public class LPCCommand implements CommandExecutor, TabCompleter {
             if (plugin.getServer().getName().toLowerCase().contains("paper")) {
                 sender.sendMessage(message);
             } else {
-                sender.sendMessage(LPC.getLegacySerializer().serialize(message));
+                sender.sendMessage(Main.getLegacySerializer().serialize(message));
             }
             return true;
         }

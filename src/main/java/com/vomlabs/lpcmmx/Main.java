@@ -1,13 +1,13 @@
-package de.ayont.lpc;
+package com.vomlabs.lpcmmx;
 
-import de.ayont.lpc.commands.LPCCommand;
-import de.ayont.lpc.listener.AsyncChatListener;
+import com.vomlabs.lpcmmx.commands.LPCCommand;
+import com.vomlabs.lpcmmx.listener.AsyncChatListener;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import de.ayont.lpc.listener.SpigotChatListener;
+import com.vomlabs.lpcmmx.listener.SpigotChatListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
-public final class LPC extends JavaPlugin {
+public final class Main extends JavaPlugin {
     private boolean isPaper;
 
     private static final LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder()

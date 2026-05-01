@@ -1,6 +1,6 @@
-package de.ayont.lpc.renderer;
+package com.vomlabs.lpcmmx.renderer;
 
-import de.ayont.lpc.LPC;
+import com.vomlabs.lpcmmx.Main;
 import io.papermc.paper.chat.ChatRenderer;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.audience.Audience;
@@ -21,7 +21,7 @@ import java.util.*;
 public class LPCChatRenderer implements ChatRenderer {
 
     private final LuckPerms luckPerms;
-    private final LPC plugin;
+    private final Main plugin;
     private final MiniMessage miniMessage;
     private final boolean hasPapi;
 
@@ -46,7 +46,7 @@ public class LPCChatRenderer implements ChatRenderer {
         }
     };
 
-    public LPCChatRenderer(LPC plugin) {
+    public LPCChatRenderer(Main plugin) {
         this.luckPerms = LuckPermsProvider.get();
         this.plugin = plugin;
         this.miniMessage = MiniMessage.builder().build();

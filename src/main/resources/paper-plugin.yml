@@ -1,8 +1,9 @@
+# yaml-language-server: $schema=../schemas/paper-plugin.schema.json
 name: LPC MiniMessage X
 version: '${version}'
-main: de.ayont.lpc.LPC
+main: com.vomlabs.lpcmmx.Main
 api-version: '1.21'
-authors: [Ayont, Varilx-Development]
+authors: [ItzzMateo, VOMLabs]
 depend: [LuckPerms]
 softdepend: [PlaceholderAPI]
 description: Edit version of wikmors Legacy LPC plugin (MiniMessage Support 1.21.11)

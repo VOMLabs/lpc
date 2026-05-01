@@ -1,6 +1,6 @@
-package de.ayont.lpc.renderer;
+package com.vomlabs.lpcmmx.renderer;
 
-import de.ayont.lpc.LPC;
+import com.vomlabs.lpcmmx.Main;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -17,11 +17,11 @@ import java.util.Objects;
 
 public class SpigotChatRenderer {
     private final LuckPerms luckPerms;
-    private final LPC plugin;
+    private final Main plugin;
     private final MiniMessage miniMessage;
     private final boolean hasPapi;
 
-    public SpigotChatRenderer(LPC plugin) {
+    public SpigotChatRenderer(Main plugin) {
         this.luckPerms = LuckPermsProvider.get();
         this.plugin = plugin;
         this.miniMessage = MiniMessage.builder().build();

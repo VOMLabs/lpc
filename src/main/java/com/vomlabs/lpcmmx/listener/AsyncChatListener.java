@@ -1,7 +1,7 @@
-package de.ayont.lpc.listener;
+package com.vomlabs.lpcmmx.listener;
 
-import de.ayont.lpc.LPC;
-import de.ayont.lpc.renderer.LPCChatRenderer;
+import com.vomlabs.lpcmmx.Main;
+import com.vomlabs.lpcmmx.renderer.LPCChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
@@ -15,10 +15,10 @@ import static java.util.regex.Pattern.*;
 
 public class AsyncChatListener implements Listener {
 
-    private final LPC plugin;
+    private final Main plugin;
     private final LPCChatRenderer lpcChatRenderer;
 
-    public AsyncChatListener(LPC plugin) {
+    public AsyncChatListener(Main plugin) {
         this.plugin = plugin;
         this.lpcChatRenderer = new LPCChatRenderer(plugin);
     }

@@ -1,8 +1,8 @@
-package de.ayont.lpc.listener;
+package com.vomlabs.lpcmmx.listener;
 
-import de.ayont.lpc.LPC;
+import com.vomlabs.lpcmmx.Main;
 import net.kyori.adventure.text.Component;
-import de.ayont.lpc.renderer.SpigotChatRenderer;
+import com.vomlabs.lpcmmx.renderer.SpigotChatRenderer;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
@@ -18,11 +18,11 @@ import java.util.Map;
 
 
 public class SpigotChatListener implements Listener {
-    private final LPC plugin;
+    private final Main plugin;
     private final SpigotChatRenderer chatRenderer;
     private final Map<String, String> legacyToMiniMessageColors;
 
-    public SpigotChatListener(LPC plugin) {
+    public SpigotChatListener(Main plugin) {
         this.plugin = plugin;
         this.chatRenderer = new SpigotChatRenderer(plugin);
         this.legacyToMiniMessageColors = new HashMap<>();
