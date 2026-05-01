@@ -2,6 +2,9 @@
 
 ## Completed Tasks
 
+- Add FastStats metrics for usage tracking
+- Implement per-player chat format overrides via `/lpc format` command
+- Implement chat preview feature for Paper 1.21+
 - Update Gradle wrapper to 8.14.4
 - Update dependencies: net.kyori:adventure-platform-bukkit to 4.4.1, me.clip:placeholderapi to 2.12.2, net.kyori:adventure-text-minimessage to 4.26.1, net.luckperms:api to 5.5
 - Update GitHub Actions: actions/checkout to v6, actions/setup-java to v5, gradle/actions to v6
@@ -31,3 +34,19 @@
 - Add chat logging to file for server moderation
 - Add support for Minecraft 26.1.0+ versions
 - Implement chat preview feature for Paper 1.21+
+- Add JSON storage support for player data and mutes
+- Add YAML storage support for player data and mutes
+- Implement chat channels system (global, local, staff, etc.)
+- Add chat mentions with sound notifications
+- Implement chat slow mode (delay between messages per player)
+- Add chat caps (max messages per time period with punishments)
+- Implement chat word replacement system (custom replacements)
+- Add chat history command for moderators (/chathistory <player>)
+- Implement chat reporting system with Discord integration
+- Add chat emojis and custom emoji support
+- Implement chat URL filtering with clickable links
+- Add chat translation support (auto-translate messages)
+- Implement chat game mode restrictions (disable chat in specific gamemodes)
+- Add chat distance-based messaging (local chat only)
+- Implement chat suspend feature (temporarily disable chat for player)
+- Add chat analytics dashboard with FastStats

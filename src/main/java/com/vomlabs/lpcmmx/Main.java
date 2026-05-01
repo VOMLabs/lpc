@@ -6,8 +6,10 @@ import com.vomlabs.lpcmmx.commands.MSGCommand;
 import com.vomlabs.lpcmmx.commands.MuteCommand;
 import com.vomlabs.lpcmmx.discord.DiscordWebhook;
 import com.vomlabs.lpcmmx.filter.ChatFilter;
+import com.vomlabs.lpcmmx.format.PlayerFormatManager;
 import com.vomlabs.lpcmmx.integration.VaultHook;
 import com.vomlabs.lpcmmx.listener.AsyncChatListener;
+import com.vomlabs.lpcmmx.listener.ChatPreviewListener;
 import com.vomlabs.lpcmmx.logging.ChatLogger;
 import com.vomlabs.lpcmmx.messages.MessageManager;
 import com.vomlabs.lpcmmx.mute.MuteManager;
@@ -22,6 +24,7 @@ public final class Main extends JavaPlugin {
     private ChatFilter chatFilter;
     private MuteManager muteManager;
     private MessageManager messageManager;
+    private PlayerFormatManager playerFormatManager;
     private EncryptionManager encryptionManager;
     private DiscordWebhook discordWebhook;
     private ChatLogger chatLogger;
@@ -43,6 +46,7 @@ public final class Main extends JavaPlugin {
         this.chatFilter = new ChatFilter(this);
         this.muteManager = new MuteManager(this);
         this.messageManager = new MessageManager(this);
+        this.playerFormatManager = new PlayerFormatManager(this);
         this.encryptionManager = new EncryptionManager();
         this.discordWebhook = new DiscordWebhook(this);
         this.chatLogger = new ChatLogger(this);
@@ -88,6 +92,16 @@ public final class Main extends JavaPlugin {
     private void registerListeners() {
         if (isPaper) {
             getServer().getPluginManager().registerEvents(new AsyncChatListener(this), this);
+            // Register chat preview if enabled
+            if (getConfig().getBoolean("chat-preview.enabled", true)) {
+                try {
+                    Class.forName("io.papermc.paper.event.packet.PlayerChatPreviewEvent");
+                    getServer().getPluginManager().registerEvents(new ChatPreviewListener(this), this);
+                    getLogger().info("Chat preview feature enabled");
+                } catch (ClassNotFoundException e) {
+                    getLogger().info("Chat preview not available on this version");
+                }
+            }
         } else {
             getServer().getPluginManager().registerEvents(new com.vomlabs.lpcmmx.listener.SpigotChatListener(this), this);
         }
@@ -99,6 +113,10 @@ public final class Main extends JavaPlugin {
 
     public MuteManager getMuteManager() {
         return muteManager;
+    }
+
+    public PlayerFormatManager getPlayerFormatManager() {
+        return playerFormatManager;
     }
 
     public MessageManager getMessageManager() {

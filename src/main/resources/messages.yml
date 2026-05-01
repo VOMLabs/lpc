@@ -44,3 +44,11 @@ msg:
   toggle-off: "<green>Private messages disabled!</green>"
   send: "<gray>[Me -> %player%]<reset> %message%"
   receive: "<gray>[%player% -> Me]<reset> %message%"
+
+# Player format overrides
+format:
+  current: "<yellow>Current chat format: %format%</yellow>"
+  none: "<yellow>You have no custom chat format set.</yellow>"
+  set: "<green>Chat format set to: %format%</green>"
+  cleared: "<green>Custom chat format cleared!</green>"
+  not-found: "<red>Format not found: %format%</red>"

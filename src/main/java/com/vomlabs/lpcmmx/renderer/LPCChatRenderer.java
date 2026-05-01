@@ -1,6 +1,7 @@
 package com.vomlabs.lpcmmx.renderer;
 
 import com.vomlabs.lpcmmx.Main;
+import com.vomlabs.lpcmmx.format.PlayerFormatManager;
 import com.vomlabs.lpcmmx.integration.VaultHook;
 import io.papermc.paper.chat.ChatRenderer;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -55,6 +56,10 @@ public class LPCChatRenderer implements ChatRenderer {
         hasPapi = pluginManager.getPlugin("PlaceholderAPI") != null;
     }
 
+    private PlayerFormatManager getPlayerFormatManager() {
+        return plugin.getPlayerFormatManager();
+    }
+
     @Override
     public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message, @NotNull Audience viewer) {
         final CachedMetaData metaData = this.luckPerms.getPlayerAdapter(Player.class).getMetaData(source);
@@ -70,8 +75,17 @@ public class LPCChatRenderer implements ChatRenderer {
             }
         }
 
-        // Get format based on world > group > track > default
-        String format = getChatFormat(source, group, metaData);
+        // Check for per-player format override
+        PlayerFormatManager formatManager = getPlayerFormatManager();
+        String playerFormatName = formatManager.getPlayerFormat(source);
+        String format;
+
+        if (playerFormatName != null && formatManager.formatExists(playerFormatName)) {
+            format = formatManager.getFormatByName(playerFormatName);
+        } else {
+            // Get format based on world > group > track > default
+            format = getChatFormat(source, group, metaData);
+        }
 
         format = format.replace("%prefix%", metaData.getPrefix() != null ? metaData.getPrefix() : "")
                 .replace("<prefix>", metaData.getPrefix() != null ? metaData.getPrefix() : "")

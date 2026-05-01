@@ -84,12 +84,31 @@
 | `lpc.mute.toggle`    | Toggle mute status of a player | false   |
 | `lpc.mute.list`       | View your muted players list | true    |
 
+### Private Messages (MSG)
+
+| Permission Node       | Description | Default |
+|----------------------|-------------|---------|
+| `lpc.msg.*`          | All private message permissions | true    |
+| `lpc.msg`            | Send private messages to players | true    |
+| `lpc.msg.toggle`     | Toggle private messages on/off | true    |
+
+### Chat Format Overrides
+
+| Permission Node       | Description | Default |
+|----------------------|-------------|---------|
+| `lpc.format`         | Set per-player chat format override | false   |
+
 ### Admin Commands
 
 | Command               | Permission Node | Description |
 |-----------------------|---------------|-------------|
 | `/lpc reload`        | `lpc.reload`   | Reloads the configuration |
 | `/lpc mute <player>` | `lpc.mute`    | Mute/unmute a player for yourself |
+| `/msg <player> <msg>` | `lpc.msg`      | Send private message to player |
+| `/msg toggle`         | `lpc.msg.toggle`| Toggle private messages on/off |
+| `/lpc format`         | `lpc.format`    | View current chat format |
+| `/lpc format <name>`  | `lpc.format`    | Set chat format override |
+| `/lpc format clear`  | `lpc.format`    | Clear chat format override |
 
 ---
 

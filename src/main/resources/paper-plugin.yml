@@ -27,6 +27,7 @@ permissions:
       lpc.itemplaceholder: true
       lpc.mute.*: true
       lpc.msg.*: true
+      lpc.format: true
       lpc.admin: true
 
   lpc.reload:
@@ -55,6 +56,10 @@ permissions:
     children:
       lpc.msg: true
       lpc.msg.toggle: true
+
+  lpc.format:
+    description: Set per-player chat format override
+    default: false
 
   lpc.mute:
     description: Allows muting/unmuting players for yourself

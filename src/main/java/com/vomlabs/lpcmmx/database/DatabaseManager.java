@@ -132,6 +132,9 @@ public class DatabaseManager {
                     "player_uuid VARCHAR(36) NOT NULL, " +
                     "muted_uuid VARCHAR(36) NOT NULL, " +
                     "PRIMARY KEY (player_uuid, muted_uuid))");
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS player_formats (" +
+                    "player_uuid VARCHAR(36) PRIMARY KEY, " +
+                    "format_name VARCHAR(255) NOT NULL)");
             stmt.close();
         } catch (SQLException e) {
             plugin.getLogger().severe("Failed to create tables: " + e.getMessage());
@@ -140,6 +143,58 @@ public class DatabaseManager {
 
     public CompletableFuture<Void> saveMutesAsync(Map<UUID, Set<UUID>> mutedPlayers) {
         return CompletableFuture.runAsync(() -> saveMutes(mutedPlayers), asyncExecutor);
+    }
+
+    public CompletableFuture<Void> savePlayerFormatsAsync(Map<UUID, String> playerFormats) {
+        return CompletableFuture.runAsync(() -> savePlayerFormats(playerFormats), asyncExecutor);
+    }
+
+    public void savePlayerFormats(Map<UUID, String> playerFormats) {
+        if (connection == null) return;
+
+        try {
+            PreparedStatement deleteStmt = connection.prepareStatement("DELETE FROM player_formats");
+            PreparedStatement insertStmt = connection.prepareStatement("INSERT INTO player_formats (player_uuid, format_name) VALUES (?, ?)");
+
+            deleteStmt.executeUpdate();
+
+            for (Map.Entry<UUID, String> entry : playerFormats.entrySet()) {
+                insertStmt.setString(1, entry.getKey().toString());
+                insertStmt.setString(2, entry.getValue());
+                insertStmt.executeUpdate();
+            }
+
+            deleteStmt.close();
+            insertStmt.close();
+        } catch (SQLException e) {
+            plugin.getLogger().severe("Failed to save player formats to database: " + e.getMessage());
+        }
+    }
+
+    public CompletableFuture<Map<UUID, String>> loadPlayerFormatsAsync() {
+        return CompletableFuture.supplyAsync(this::loadPlayerFormats, asyncExecutor);
+    }
+
+    public Map<UUID, String> loadPlayerFormats() {
+        Map<UUID, String> playerFormats = new HashMap<>();
+
+        if (connection == null) return playerFormats;
+
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM player_formats");
+            while (rs.next()) {
+                UUID playerUUID = UUID.fromString(rs.getString("player_uuid"));
+                String formatName = rs.getString("format_name");
+                playerFormats.put(playerUUID, formatName);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            plugin.getLogger().severe("Failed to load player formats from database: " + e.getMessage());
+        }
+
+        return playerFormats;
     }
 
     public void saveMutes(Map<UUID, Set<UUID>> mutedPlayers) {

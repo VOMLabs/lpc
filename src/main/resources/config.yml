@@ -115,8 +115,18 @@ track-formats:
 #  staff_track: "[staff] <name><dark_gray> »<reset> <message>"
 #  donator_track: "{donator_rank} <name><dark_gray> »<reset> <message>"
 
+# Per-player format overrides (use with /lpc format <format-name>)
+player-formats:
+#  colorful: "<rainbow><name></rainbow><dark_gray> »<reset> <message>"
+#  simple: "<gray><name><dark_gray>:<reset> <message>"
+#  admin: "<red><name><dark_gray> »<reset> <message>"
+
 # Enable the [ITEM] placeholder
 use-item-placeholder: true
+
+# Chat Preview Settings (Paper 1.21+)
+chat-preview:
+  enabled: true
 
 # Reload message
 reload-message: "<green>Reloaded LPC Configuration!"
