@@ -1,6 +1,7 @@
 package com.vomlabs.lpcmmx;
 
 import com.vomlabs.lpcmmx.commands.LPCCommand;
+import com.vomlabs.lpcmmx.integration.VaultHook;
 import com.vomlabs.lpcmmx.listener.AsyncChatListener;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import com.vomlabs.lpcmmx.listener.SpigotChatListener;
@@ -23,6 +24,7 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         this.isPaper = checkIfPaper();
+        VaultHook.setupEconomy(this);
         registerCommand();
         saveDefaultConfig();
         registerListeners();

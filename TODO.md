@@ -12,19 +12,19 @@
 - Rename plugin to LPC MiniMessage X
 - Refactor package structure from `de.ayont.lpc` to `com.vomlabs.lpcmmx`
 - Update plugin authors to ItzzMateo and VOMLabs
+- Add JSON schema validation for `config.yml` and `paper-plugin.yml`
+- Integrate with Vault for economy-related placeholders
+- Support MiniMessage gradient and rainbow tags in chat formats and config
 
 ## Planned Features (To Add)
 
 - Add per-world chat format support
 - Implement chat anti-spam and filtering system
 - Expand built-in placeholders: `{player-health}`, `{player-level}`, `{world-time}`, `{player-uuid}`
-- Support MiniMessage gradient and rainbow tags in chat formats and config
 - Add per-player chat format overrides via permissions or `/lpc` command
-- Integrate with Vault for economy-related placeholders
 - Add chat logging to file for server moderation
 - Add support for Minecraft 26.1.0+ versions
-- Add JSON schema validation for `config.yml` and `paper-plugin.yml`
 - Implement chat preview feature for Paper 1.21+
-- Add Discord webhook integration for cross-platform chat mirroring
-- Add bStats metrics for usage tracking
+- Add Discord webhook (optional DiscordSRV support, if no DCSRV, then default DC webhooks) integration for cross-platform chat mirroring
+- Add FastStats metrics for usage tracking
 - Implement chat mute/ignore player functionality

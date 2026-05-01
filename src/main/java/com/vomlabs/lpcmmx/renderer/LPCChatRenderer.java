@@ -1,6 +1,7 @@
 package com.vomlabs.lpcmmx.renderer;
 
 import com.vomlabs.lpcmmx.Main;
+import com.vomlabs.lpcmmx.integration.VaultHook;
 import io.papermc.paper.chat.ChatRenderer;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.audience.Audience;
@@ -91,15 +92,28 @@ public class LPCChatRenderer implements ChatRenderer {
             format = plugin.getConfig().getString("chat-format");
         }
 
-        format = format.replace("{prefix}", metaData.getPrefix() != null ? metaData.getPrefix() : "")
-                .replace("{suffix}", metaData.getSuffix() != null ? metaData.getSuffix() : "")
-                .replace("{prefixes}", String.join(" ", metaData.getPrefixes().values()))
-                .replace("{suffixes}", String.join(" ", metaData.getSuffixes().values()))
-                .replace("{world}", source.getWorld().getName())
-                .replace("{name}", source.getName())
-                .replace("{displayname}", PlainTextComponentSerializer.plainText().serialize(source.displayName()))
-                .replace("{username-color}", metaData.getMetaValue("username-color") != null ? Objects.requireNonNull(metaData.getMetaValue("username-color")) : "")
-                .replace("{message-color}", metaData.getMetaValue("message-color") != null ? Objects.requireNonNull(metaData.getMetaValue("message-color")) : "");
+        format = format.replace("%prefix%", metaData.getPrefix() != null ? metaData.getPrefix() : "")
+                .replace("<prefix>", metaData.getPrefix() != null ? metaData.getPrefix() : "")
+                .replace("%suffix%", metaData.getSuffix() != null ? metaData.getSuffix() : "")
+                .replace("<suffix>", metaData.getSuffix() != null ? metaData.getSuffix() : "")
+                .replace("%prefixes%", String.join(" ", metaData.getPrefixes().values()))
+                .replace("<prefixes>", String.join(" ", metaData.getPrefixes().values()))
+                .replace("%suffixes%", String.join(" ", metaData.getSuffixes().values()))
+                .replace("<suffixes>", String.join(" ", metaData.getSuffixes().values()))
+                .replace("%world%", source.getWorld().getName())
+                .replace("<world>", source.getWorld().getName())
+                .replace("%name%", source.getName())
+                .replace("<name>", source.getName())
+                .replace("%displayname%", PlainTextComponentSerializer.plainText().serialize(source.displayName()))
+                .replace("<displayname>", PlainTextComponentSerializer.plainText().serialize(source.displayName()))
+                .replace("%username-color%", metaData.getMetaValue("username-color") != null ? Objects.requireNonNull(metaData.getMetaValue("username-color")) : "")
+                .replace("<username-color>", metaData.getMetaValue("username-color") != null ? Objects.requireNonNull(metaData.getMetaValue("username-color")) : "")
+                .replace("%message-color%", metaData.getMetaValue("message-color") != null ? Objects.requireNonNull(metaData.getMetaValue("message-color")) : "")
+                .replace("<message-color>", metaData.getMetaValue("message-color") != null ? Objects.requireNonNull(metaData.getMetaValue("message-color")) : "")
+                .replace("%balance%", VaultHook.hasEconomy() ? String.valueOf(VaultHook.getBalance(source)) : "0")
+                .replace("<balance>", VaultHook.hasEconomy() ? String.valueOf(VaultHook.getBalance(source)) : "0")
+                .replace("%balance-formatted%", VaultHook.hasEconomy() ? VaultHook.getFormattedBalance(source) : "0")
+                .replace("<balance-formatted>", VaultHook.hasEconomy() ? VaultHook.getFormattedBalance(source) : "0");
 
         if (!hasPermission) {
             for (Map.Entry<String, String> entry : legacyToMiniMessageColors.entrySet()) {
@@ -111,8 +125,14 @@ public class LPCChatRenderer implements ChatRenderer {
             format = PlaceholderAPI.setPlaceholders(source, format);
         }
 
-        format = format.replace("{message}", plainMessage);
+        format = format.replace("%message%", plainMessage)
+                .replace("<message>", plainMessage);
 
-        return miniMessage.deserialize(format.replace("%%", "%"));
+        try {
+            return miniMessage.deserialize(format.replace("%%", "%"));
+        } catch (Exception e) {
+            plugin.getLogger().warning("Failed to parse MiniMessage format for " + source.getName() + ": " + e.getMessage());
+            return miniMessage.deserialize(plainMessage);
+        }
     }
 }

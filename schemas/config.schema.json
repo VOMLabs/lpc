@@ -6,8 +6,14 @@
   "properties": {
     "chat-format": {
       "type": "string",
-      "description": "The default chat format. Supports MiniMessage formatting and placeholders: {prefix}, {suffix}, {prefixes}, {suffixes}, {world}, {name}, {displayname}, {username-color}, {message-color}, {message}, [item]",
-      "default": "{prefix}{name}<dark_gray> »<reset> {message}"
+      "description": "The default chat format. Supports MiniMessage formatting (including <gradient:color1:color2> and <rainbow> tags) and placeholders: %prefix%/<prefix>, %suffix%/<suffix>, %prefixes%/<prefixes>, %suffixes%/<suffixes>, %world%/<world>, %name%/<name>, %displayname%/<displayname>, %username-color%/<username-color>, %message-color%/<message-color>, %message%/<message>, [item], %balance%/<balance>, %balance-formatted%/<balance-formatted>",
+      "default": "{prefix}{name}<dark_gray> »<reset> {message}",
+      "examples": [
+        "{prefix}{name}<dark_gray> »<reset> {message}",
+        "<gradient:red:blue>{name}</gradient><dark_gray> »<reset> {message}",
+        "<rainbow>{name}</rainbow><dark_gray> »<reset> {message}",
+        "<gradient:#FF0000:#00FF00:#0000FF>{name}</gradient><dark_gray> »<reset> {message}"
+      ]
     },
     "group-formats": {
       "type": "object",
@@ -37,5 +43,19 @@
     }
   },
   "required": ["chat-format", "use-item-placeholder", "reload-message"],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "examples": [
+    {
+      "chat-format": "{prefix}{name}<dark_gray> »<reset> {message}",
+      "group-formats": {
+        "admin": "<gold>{prefix}{name}<dark_gray> »<reset> {message}",
+        "default": "{prefix}{name}<dark_gray> »<reset> {message}"
+      },
+      "track-formats": {
+        "staff_track": "[staff] {name}<dark_gray> »<reset> {message}"
+      },
+      "use-item-placeholder": true,
+      "reload-message": "<green>Reloaded LPC Configuration!"
+    }
+  ]
 }
