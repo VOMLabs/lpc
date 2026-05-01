@@ -39,24 +39,55 @@
 - **Gradient & Rainbow tags** – `<gradient:red:blue>` and `<rainbow>` in chat formats
 - **Chat anti-spam & swear filtering** – configurable filter with item name filtering
 - **Player ignore system** – mute players for yourself, their messages appear grayed out
+- **Per-world chat formats** – world-specific, group, and track-based formats
+- **10-layer encryption & hash** – Bouncy Castle encryption for config values
+- **Async & concurrent** – non-blocking database, logging, and message operations
+- **C++ Native API** – high-performance JNI implementation (falls back to Java)
+- **Discord webhook integration** – DiscordSRV support + direct webhooks
+- **Chat logging** – daily rotating log files for moderation
 - Group and track-specific chat formats
 - Optional support for PlaceholderAPI
 - **Vault economy integration** – `%balance%` / `<balance>` and `%balance-formatted%` / `<balance-formatted>` placeholders
 - Supports `[ITEM]` placeholder with hover info (with swear filtering)
-- Customizable reload message
+- **10-layer encryption** – Bouncy Castle AES/XOR/SHA-256/SHA-3/SHA-512
+- Customizable messages in `messages.yml` with prefix support
 - JSON Schema validation for `config.yml` and `paper-plugin.yml`
 - Modern Paper plugin format (`paper-plugin.yml`)
+- **Explicit permission system** – `lpc.*`, `lpc.admin`, `lpc.mute.*`, etc.
 
 ---
 
 ## 🧑‍💼 Permissions
 
-| Command / Feature        | Permission Node       | Description |
-|--------------------------|------------------------|--------------|
-| `/lpc reload`            | `lpc.reload`           | Reloads the configuration |
-| `/lpc mute <player>`     | `lpc.mute`             | Mute/unmute a player for yourself |
-| MiniMessage colors       | `lpc.chatcolor`        | Allows using MiniMessage color codes in chat |
-| `[ITEM]` Placeholder     | `lpc.itemplaceholder`  | Enables the `[ITEM]` placeholder in chat |
+### Main Permission Nodes
+
+| Permission Node       | Description | Default |
+|----------------------|-------------|---------|
+| `lpc.*`              | All LPC permissions | op      |
+| `lpc.admin`          | Admin access to all features | op      |
+
+### Chat & Display
+
+| Permission Node       | Description | Default |
+|----------------------|-------------|---------|
+| `lpc.chatcolor`     | Allows using MiniMessage color codes in chat | false   |
+| `lpc.itemplaceholder` | Enables the `[ITEM]` placeholder in chat | false   |
+
+### Mute System
+
+| Permission Node       | Description | Default |
+|----------------------|-------------|---------|
+| `lpc.mute.*`         | All mute-related permissions | op      |
+| `lpc.mute`           | Mute/unmute players for yourself | false   |
+| `lpc.mute.toggle`    | Toggle mute status of a player | false   |
+| `lpc.mute.list`       | View your muted players list | true    |
+
+### Admin Commands
+
+| Command               | Permission Node | Description |
+|-----------------------|---------------|-------------|
+| `/lpc reload`        | `lpc.reload`   | Reloads the configuration |
+| `/lpc mute <player>` | `lpc.mute`    | Mute/unmute a player for yourself |
 
 ---
 

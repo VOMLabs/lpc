@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=../schemas/paper-plugin.schema.json
 name: LPC MiniMessage X
 version: '${version}'
 main: com.vomlabs.lpcmmx.Main
@@ -6,10 +5,62 @@ api-version: '1.21'
 authors: [ItzzMateo, VOMLabs]
 depend: [LuckPerms]
 softdepend: [PlaceholderAPI, Vault]
-description: Edit version of wikmors Legacy LPC plugin (MiniMessage Support 1.21.11)
 website: https://modrinth.com/plugin/lpc-chat
+
 commands:
   lpc:
-    description: Reload the configuration.
-    permission: lpc.reload
-    usage: "Usage: /lpc reload"
+    description: Main LPC command for reload and mute
+    usage: "Usage: /lpc <reload|mute> [player]"
+    aliases: [lpcx]
+
+permissions:
+  lpc.*:
+    description: Gives access to all LPC permissions
+    default: op
+    children:
+      lpc.reload: true
+      lpc.chatcolor: true
+      lpc.itemplaceholder: true
+      lpc.mute.*: true
+      lpc.admin: true
+
+  lpc.reload:
+    description: Allows reloading the LPC configuration
+    default: op
+
+  lpc.chatcolor:
+    description: Allows using MiniMessage color codes in chat
+    default: false
+
+  lpc.itemplaceholder:
+    description: Enables the [ITEM] placeholder in chat
+    default: false
+
+  lpc.mute.*:
+    description: All mute-related permissions
+    default: op
+    children:
+      lpc.mute: true
+      lpc.mute.toggle: true
+      lpc.mute.list: true
+
+  lpc.mute:
+    description: Allows muting/unmuting players for yourself
+    default: false
+
+  lpc.mute.toggle:
+    description: Allows toggling mute status of a player
+    default: false
+
+  lpc.mute.list:
+    description: Allows viewing your muted players list
+    default: true
+
+  lpc.admin:
+    description: Admin access to all LPC features
+    default: op
+    children:
+      lpc.reload: true
+      lpc.chatcolor: true
+      lpc.itemplaceholder: true
+      lpc.mute.*: true

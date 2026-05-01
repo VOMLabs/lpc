@@ -18,11 +18,32 @@
 - Implement chat anti-spam and swear-filtering system, including item name sanitization (e.g. `[ITEM]` will display censored names like `sh*t`).
 - Expand built-in placeholders: `%player-health%` / `<player-health>`, `%player-level%` / `<player-level>`, `%world-time%` / `<world-time>`, `%player-uuid%` / `<player-uuid>`
 - Implement chat mute/ignore player functionality
-- Add Discord webhooks (optional DiscordSRV support, if no DCSRV, then default DC webhooks) integration for cross-platform chat mirroring
+- Add per-world chat format support
+- Add chat logging to file for server moderation
+- Implement Discord webhook (optional DiscordSRV support, if no DCSRV, then default DC webhooks) integration for cross-platform chat mirroring
+- Implement 10 layer encryption and hash to the plugin when compiling, make it using dependencies, etc. do not make it yourself
+- Change more parts of the plugin to be async and concurrent
+- Add a prefix line to the messages.yml, this prefix will be added before every message by the system automatically
+- Implement chat mute/ignore player functionality
+- Add chat logging to file for server moderation
+- Implement Discord webhook (optional DiscordSRV support, if no DCSRV, then default DC webhooks) integration for cross-platform chat mirroring
+- Implement 10 layer encryption and hash to the plugin when compiling, make it using dependencies, etc. do not make it yourself
+- Change more parts of the plugin to be async and concurrent
+- Add a prefix line to the messages.yml
+- Upgrade the API so it is type-safe, and also extend the API while also rewriting it in C++
+- Add per-world chat format support
+- Add chat logging to file for server moderation
+- Implement Discord webhook (optional DiscordSRV support, if no DCSRV, then default DC webhooks) integration for cross-platform chat mirroring
+- Implement 10 layer encryption and hash to the plugin when compiling, make it using dependencies, etc. do not make it yourself
+- Change more parts of the plugin to be async and concurrent
+- Add a prefix line to the messages.yml
+- Upgrade the API so it is type-safe
+- Add per-world chat format support
+- Change the permission system to be more explicit, so way more permissions!
 
 ## Planned Features (To Add)
 
-- Add per-world chat format support
+- Add FastStats metrics for usage tracking
 - Add per-player chat format overrides via permissions or `/lpc` command
 - Add chat logging to file for server moderation
 - Add support for Minecraft 26.1.0+ versions

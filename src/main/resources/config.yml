@@ -93,6 +93,18 @@ filter:
 
 chat-format: "<prefix><name><dark_gray> »<reset> <message>"
 
+# Per-world chat formats (optional)
+# Format: world-formats.<world-name>: format
+# You can also use world-formats.<world-name>.group-formats and world-formats.<world-name>.track-formats
+world-formats:
+#  world: "<prefix><name><dark_gray> »<reset> <message>"
+#  world_nether:
+#    group-formats:
+#      default: "<prefix><name><dark_gray> »<reset> <message>"
+#      admin: "<prefix><name><dark_red> »<reset> <message>"
+#    track-formats:
+#      staff_track: "<prefix><name><dark_aqua> »<reset> <message>"
+
 # Format per group (optional)
 group-formats:
 #  default: "[default] <name><dark_gray> »<reset> <message>"

@@ -70,27 +70,8 @@ public class LPCChatRenderer implements ChatRenderer {
             }
         }
 
-        String formatKey = "group-formats." + group;
-        String format = plugin.getConfig().getString(formatKey);
-
-        if (format == null) {
-            ConfigurationSection trackFormatsSection = plugin.getConfig().getConfigurationSection("track-formats");
-            if (trackFormatsSection != null) {
-                for (String trackName : trackFormatsSection.getKeys(false)) {
-                    Track track = this.luckPerms.getTrackManager().getTrack(trackName);
-                    if (track == null) continue;
-                    if (track.containsGroup(group)) {
-                        formatKey = "track-formats." + trackName;
-                        format = plugin.getConfig().getString(formatKey);
-                        break;
-                    }
-                }
-            }
-        }
-
-        if (format == null) {
-            format = plugin.getConfig().getString("chat-format");
-        }
+        // Get format based on world > group > track > default
+        String format = getChatFormat(source, group, metaData);
 
         format = format.replace("%prefix%", metaData.getPrefix() != null ? metaData.getPrefix() : "")
                 .replace("<prefix>", metaData.getPrefix() != null ? metaData.getPrefix() : "")
@@ -142,5 +123,55 @@ public class LPCChatRenderer implements ChatRenderer {
             plugin.getLogger().warning("Failed to parse MiniMessage format for " + source.getName() + ": " + e.getMessage());
             return miniMessage.deserialize(plainMessage);
         }
+    }
+
+    private String getChatFormat(Player player, String group, CachedMetaData metaData) {
+        String worldName = player.getWorld().getName();
+
+        // 1. Check per-world format
+        String format = plugin.getConfig().getString("world-formats." + worldName);
+        if (format != null) {
+            return format;
+        }
+
+        // 2. Check per-world group format
+        format = plugin.getConfig().getString("world-formats." + worldName + ".group-formats." + group);
+        if (format != null) {
+            return format;
+        }
+
+        // 3. Check per-world track format
+        ConfigurationSection worldTrackSection = plugin.getConfig().getConfigurationSection("world-formats." + worldName + ".track-formats");
+        if (worldTrackSection != null) {
+            for (String trackName : worldTrackSection.getKeys(false)) {
+                Track track = this.luckPerms.getTrackManager().getTrack(trackName);
+                if (track == null) continue;
+                if (track.containsGroup(group)) {
+                    return plugin.getConfig().getString("world-formats." + worldName + ".track-formats." + trackName);
+                }
+            }
+        }
+
+        // 4. Check group format
+        String formatKey = "group-formats." + group;
+        format = plugin.getConfig().getString(formatKey);
+        if (format != null) {
+            return format;
+        }
+
+        // 5. Check track format
+        ConfigurationSection trackFormatsSection = plugin.getConfig().getConfigurationSection("track-formats");
+        if (trackFormatsSection != null) {
+            for (String trackName : trackFormatsSection.getKeys(false)) {
+                Track track = this.luckPerms.getTrackManager().getTrack(trackName);
+                if (track == null) continue;
+                if (track.containsGroup(group)) {
+                    return plugin.getConfig().getString("track-formats." + trackName);
+                }
+            }
+        }
+
+        // 6. Default format
+        return plugin.getConfig().getString("chat-format");
     }
 }
