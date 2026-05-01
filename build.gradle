@@ -45,6 +45,36 @@ dependencies {
     implementation "org.postgresql:postgresql:42.7.5"
     implementation "com.mysql:mysql-connector-j:9.1.0"
     implementation "org.mariadb.jdbc:mariadb-java-client:3.5.0"
+
+    // JNI / Native support
+    compileOnly "org.graalvm.sdk:graal-sdk:24.1.1"
+}
+
+// C++ Native library compilation
+tasks.register('compileNative', Exec) {
+    description = 'Compile C++ native library'
+    doFirst {
+        file('build/native').mkdirs()
+    }
+    workingDir = file('build/native')
+    commandLine = ['g++', '-shared', '-fPIC', '-I', "${System.getProperty('java.home')}/include",
+                 '-I', "${System.getProperty('java.home')}/include/linux",
+                 '-o', 'liblpc-native.so',
+                 '../../src/main/cpp/lpc_native.cpp']
+    doLast {
+        copy {
+            from 'build/native/liblpc-native.so'
+            into 'src/main/resources/native'
+        }
+    }
+}
+
+// Process native resources
+processResources {
+    from('src/main/resources/native') {
+        into 'native'
+        include '*.so', '*.dylib', '*.dll'
+    }
 }
 
 shadowJar {

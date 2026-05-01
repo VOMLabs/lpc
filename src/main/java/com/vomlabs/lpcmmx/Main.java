@@ -1,6 +1,7 @@
 package com.vomlabs.lpcmmx;
 
 import com.vomlabs.lpcmmx.commands.LPCCommand;
+import com.vomlabs.lpcmmx.api.LPCAPI;
 import com.vomlabs.lpcmmx.filter.ChatFilter;
 import com.vomlabs.lpcmmx.integration.VaultHook;
 import com.vomlabs.lpcmmx.listener.AsyncChatListener;
@@ -33,6 +34,7 @@ public final class Main extends JavaPlugin {
         this.chatFilter = new ChatFilter(this);
         this.muteManager = new MuteManager(this);
         this.messageManager = new MessageManager(this);
+        LPCAPI.init(this);
         VaultHook.setupEconomy(this);
         registerCommand();
         saveDefaultConfig();
@@ -50,6 +52,21 @@ public final class Main extends JavaPlugin {
 
     public MessageManager getMessageManager() {
         return messageManager;
+    }
+
+    public VaultHook getVaultHook() {
+        return VaultHook.getInstance();
+    }
+
+    public ChatFilter getChatFilter() {
+        return chatFilter;
+    }
+
+    public LPCChatRenderer getChatRenderer() {
+        return isPaper ? ((AsyncChatListener) getServer().getPluginManager().getListeners(this).stream()
+                .filter(l -> l instanceof AsyncChatListener)
+                .map(l -> ((AsyncChatListener) l).getLpcChatRenderer())
+                .findFirst().orElse(null) : null;
     }
 
     public void registerCommand() {

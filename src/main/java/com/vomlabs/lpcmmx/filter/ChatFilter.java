@@ -1,6 +1,7 @@
 package com.vomlabs.lpcmmx.filter;
 
 import com.vomlabs.lpcmmx.Main;
+import com.vomlabs.lpcmmx.native.NativeAPI;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
@@ -51,24 +52,40 @@ public class ChatFilter {
         this.playerChatHistory = new HashMap<>();
     }
 
-    public String filterSwearWords(String message) {
+    public synchronized String filterSwearWords(String message) {
         if (!enabled || message == null) return message;
 
-        String filtered = message;
-        for (String word : filteredWords) {
-            if (word == null || word.isEmpty()) continue;
-            String regex = "(?i)\\b" + word + "\\b";
-            filtered = filtered.replaceAll(regex, replacement.repeat(word.length()));
+        // Try native C++ implementation first, fallback to Java
+        try {
+            return NativeAPI.filterSwearWords(message, filteredWords, replacement);
+        } catch (UnsatisfiedLinkError | Exception e) {
+            // Java fallback
+            String filtered = message.toLowerCase();
+            for (String word : filteredWords) {
+                if (word == null || word.isEmpty()) continue;
+                StringBuilder sb = new StringBuilder();
+                int lastIndex = 0;
+                int index;
+                while ((index = filtered.indexOf(word.toLowerCase(), lastIndex)) != -1) {
+                    sb.append(filtered.substring(lastIndex, index));
+                    boolean isStart = (index == 0 || !Character.isLetter(filtered.charAt(index - 1)));
+                    boolean isEnd = (index + word.length() >= filtered.length() ||
+                            !Character.isLetter(filtered.charAt(index + word.length())));
+                    if (isStart && isEnd) {
+                        sb.append(replacement.repeat(word.length()));
+                    } else {
+                        sb.append(filtered.substring(index, index + word.length()));
+                    }
+                    lastIndex = index + word.length();
+                }
+                sb.append(filtered.substring(lastIndex));
+                filtered = sb.toString();
+            }
+            return filtered;
         }
-        return filtered;
     }
 
-    public String filterItemName(String itemName) {
-        if (!enabled || !filterItemNames || itemName == null) return itemName;
-        return filterSwearWords(itemName);
-    }
-
-    public boolean isSpamming(UUID playerUUID) {
+    public synchronized boolean isSpamming(UUID playerUUID) {
         if (!antiSpamEnabled) return false;
 
         long now = System.currentTimeMillis();
@@ -85,7 +102,13 @@ public class ChatFilter {
 
         history.messageTimes.add(now);
 
-        return history.messageTimes.size() > maxMessagesPerWindow;
+        // Try native C++ implementation, fallback to Java
+        try {
+            long[] timestamps = history.messageTimes.stream().mapToLong(Long::longValue).toArray();
+            return NativeAPI.isSpam(timestamps, now, minTimeBetweenMessages, maxMessagesPerWindow, timeWindowSeconds);
+        } catch (UnsatisfiedLinkError | Exception e) {
+            return history.messageTimes.size() > maxMessagesPerWindow;
+        }
     }
 
     public void cleanupOldEntries() {

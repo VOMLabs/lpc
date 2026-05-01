@@ -8,6 +8,7 @@ import org.bukkit.plugin.Plugin;
 public class VaultHook {
 
     private static Economy economy = null;
+    private static VaultHook instance;
 
     public static boolean setupEconomy(Plugin plugin) {
         if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
@@ -18,26 +19,35 @@ public class VaultHook {
             return false;
         }
         economy = rsp.getProvider();
+        instance = new VaultHook();
         plugin.getLogger().info("Vault economy integration enabled.");
         return true;
+    }
+
+    public static VaultHook getInstance() {
+        return instance;
+    }
+
+    public boolean hasEconomy() {
+        return economy != null;
+    }
+
+    public double getBalance(OfflinePlayer player) {
+        if (economy == null) return 0.0;
+        return economy.getBalance(player);
+    }
+
+    public String getFormattedBalance(OfflinePlayer player) {
+        if (economy == null) return "0";
+        return economy.format(getBalance(player));
     }
 
     public static boolean hasEconomy() {
         return economy != null;
     }
 
-    public static String format(double amount) {
+    public String format(double amount) {
         if (economy == null) return String.valueOf(amount);
         return economy.format(amount);
-    }
-
-    public static double getBalance(org.bukkit.OfflinePlayer player) {
-        if (economy == null) return 0.0;
-        return economy.getBalance(player);
-    }
-
-    public static String getFormattedBalance(org.bukkit.OfflinePlayer player) {
-        if (economy == null) return "0";
-        return format(economy.getBalance(player));
     }
 }
