@@ -2,6 +2,7 @@ package com.vomlabs.lpcmmx.listener;
 
 import com.vomlabs.lpcmmx.Main;
 import com.vomlabs.lpcmmx.filter.ChatFilter;
+import com.vomlabs.lpcmmx.mute.MuteManager;
 import com.vomlabs.lpcmmx.renderer.LPCChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
@@ -30,6 +31,7 @@ public class AsyncChatListener implements Listener {
     public void onChat(AsyncChatEvent event) {
         final Player player = event.getPlayer();
         final ChatFilter filter = plugin.getChatFilter();
+        final MuteManager muteManager = plugin.getMuteManager();
 
         if (filter.isAntiSpamEnabled() && filter.isSpamming(player.getUniqueId())) {
             player.sendMessage(Component.text("§cPlease slow down!"));
@@ -45,15 +47,24 @@ public class AsyncChatListener implements Listener {
             }
         }
 
+        // Check if any viewer has muted this player - show grayed out message to them
+        event.renderer((source, sourceDisplayName, message, viewer) -> {
+            Component rendered = lpcChatRenderer.render(source, sourceDisplayName, message, viewer);
+            
+            if (viewer instanceof Player && muteManager.isIgnored(player, ((Player) viewer).getUniqueId())) {
+                // Gray out the message for players who have muted this sender
+                return rendered.replaceText(builder -> builder.match(".*").replacement(Component.text("§7[Ignored] " + PlainTextComponentSerializer.plainText().serialize(rendered))));
+            }
+            return rendered;
+        });
+
         if(!plugin.getConfig().getBoolean("use-item-placeholder", false) || !player.hasPermission("lpc.itemplaceholder")){
-            event.renderer(lpcChatRenderer);
             return;
         }
 
         final ItemStack item = player.getInventory().getItemInMainHand();
         Component displayName = item.getItemMeta() != null && item.getItemMeta().hasDisplayName() ? item.getItemMeta().displayName() : Component.text(item.getType().toString().toLowerCase().replace("_", " "));
         if (item.getType().equals(Material.AIR) || displayName == null) {
-            event.renderer(lpcChatRenderer);
             return;
         }
 
@@ -64,8 +75,15 @@ public class AsyncChatListener implements Listener {
 
         final Component finalDisplayName = displayName;
 
-        event.renderer((source, sourceDisplayName, message, viewer) -> lpcChatRenderer.render(source, sourceDisplayName, message, viewer)
-                .replaceText(TextReplacementConfig.builder().match(compile("\\[item]", CASE_INSENSITIVE))
-                        .replacement(finalDisplayName.hoverEvent(item)).build()));
+        event.renderer((source, sourceDisplayName, message, viewer) -> {
+            Component rendered = lpcChatRenderer.render(source, sourceDisplayName, message, viewer)
+                    .replaceText(TextReplacementConfig.builder().match(compile("\\[item]", CASE_INSENSITIVE))
+                            .replacement(finalDisplayName.hoverEvent(item)).build());
+            
+            if (viewer instanceof Player && muteManager.isIgnored(player, ((Player) viewer).getUniqueId())) {
+                return Component.text("§7[Ignored] ").append(rendered);
+            }
+            return rendered;
+        });
     }
 }

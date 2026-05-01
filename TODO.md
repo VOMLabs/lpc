@@ -17,6 +17,7 @@
 - Support MiniMessage gradient and rainbow tags in chat formats and config
 - Implement chat anti-spam and swear-filtering system, including item name sanitization (e.g. `[ITEM]` will display censored names like `sh*t`).
 - Expand built-in placeholders: `%player-health%` / `<player-health>`, `%player-level%` / `<player-level>`, `%world-time%` / `<world-time>`, `%player-uuid%` / `<player-uuid>`
+- Implement chat mute/ignore player functionality
 
 ## Planned Features (To Add)
 

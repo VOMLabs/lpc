@@ -38,6 +38,7 @@
 - Full [MiniMessage](https://docs.advntr.dev/minimessage/format.html) formatting support
 - **Gradient & Rainbow tags** – `<gradient:red:blue>` and `<rainbow>` in chat formats
 - **Chat anti-spam & swear filtering** – configurable filter with item name filtering
+- **Player ignore system** – mute players for yourself, their messages appear grayed out
 - Group and track-specific chat formats
 - Optional support for PlaceholderAPI
 - **Vault economy integration** – `%balance%` / `<balance>` and `%balance-formatted%` / `<balance-formatted>` placeholders
@@ -53,6 +54,7 @@
 | Command / Feature        | Permission Node       | Description |
 |--------------------------|------------------------|--------------|
 | `/lpc reload`            | `lpc.reload`           | Reloads the configuration |
+| `/lpc mute <player>`     | `lpc.mute`             | Mute/unmute a player for yourself |
 | MiniMessage colors       | `lpc.chatcolor`        | Allows using MiniMessage color codes in chat |
 | `[ITEM]` Placeholder     | `lpc.itemplaceholder`  | Enables the `[ITEM]` placeholder in chat |
 

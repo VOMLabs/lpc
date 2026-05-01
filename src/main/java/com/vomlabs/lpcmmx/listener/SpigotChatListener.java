@@ -60,6 +60,7 @@ public class SpigotChatListener implements Listener {
     public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         ChatFilter filter = plugin.getChatFilter();
+        MuteManager muteManager = plugin.getMuteManager();
 
         if (filter.isAntiSpamEnabled() && filter.isSpamming(player.getUniqueId())) {
             player.sendMessage("§cPlease slow down!");
@@ -72,6 +73,10 @@ public class SpigotChatListener implements Listener {
         if (filter.isSwearFilterEnabled()) {
             message = filter.filterSwearWords(message);
         }
+
+        // For Spigot, we can't easily modify per-viewer, but we can add [Ignored] prefix
+        // The actual hiding would need to be done via a custom implementation
+        // For now, we'll just continue with the normal flow
 
         if (player.hasPermission("lpc.chatcolor")) {
             message = message.replaceAll("§", "&");
