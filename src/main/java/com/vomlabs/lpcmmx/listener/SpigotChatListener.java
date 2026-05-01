@@ -63,7 +63,7 @@ public class SpigotChatListener implements Listener {
         MuteManager muteManager = plugin.getMuteManager();
 
         if (filter.isAntiSpamEnabled() && filter.isSpamming(player.getUniqueId())) {
-            player.sendMessage("§cPlease slow down!");
+            player.sendMessage(plugin.getMessageManager().getMessage("chat.spam-warning"));
             event.setCancelled(true);
             return;
         }

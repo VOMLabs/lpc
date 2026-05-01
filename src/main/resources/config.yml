@@ -50,6 +50,27 @@ use-item-placeholder: true
 # Editing Reload-message
 reload-message: "<green>Reloaded LPC Configuration!"
 
+# Storage Settings
+storage:
+  # Supported types: yaml, json, h2, sqlite, mysql, mariadb, mongodb
+  type: yaml
+
+  # MySQL Settings (only if storage.type = mysql)
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "lpc"
+    username: "root"
+    password: ""
+
+  # MariaDB Settings (only if storage.type = mariadb)
+  mariadb:
+    host: "localhost"
+    port: 3306
+    database: "lpc"
+    username: "root"
+    password: ""
+
 # Chat Filter Settings
 filter:
   # Anti-Spam Settings

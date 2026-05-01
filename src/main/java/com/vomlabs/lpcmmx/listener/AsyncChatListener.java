@@ -34,7 +34,7 @@ public class AsyncChatListener implements Listener {
         final MuteManager muteManager = plugin.getMuteManager();
 
         if (filter.isAntiSpamEnabled() && filter.isSpamming(player.getUniqueId())) {
-            player.sendMessage(Component.text("§cPlease slow down!"));
+            player.sendMessage(plugin.getMessageManager().getComponent("chat.spam-warning"));
             event.setCancelled(true);
             return;
         }

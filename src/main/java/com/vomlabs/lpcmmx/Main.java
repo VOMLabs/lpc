@@ -4,6 +4,7 @@ import com.vomlabs.lpcmmx.commands.LPCCommand;
 import com.vomlabs.lpcmmx.filter.ChatFilter;
 import com.vomlabs.lpcmmx.integration.VaultHook;
 import com.vomlabs.lpcmmx.listener.AsyncChatListener;
+import com.vomlabs.lpcmmx.messages.MessageManager;
 import com.vomlabs.lpcmmx.mute.MuteManager;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import com.vomlabs.lpcmmx.listener.SpigotChatListener;
@@ -14,6 +15,7 @@ public final class Main extends JavaPlugin {
     private boolean isPaper;
     private ChatFilter chatFilter;
     private MuteManager muteManager;
+    private MessageManager messageManager;
 
     private static final LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder()
             .character('§')
@@ -30,9 +32,11 @@ public final class Main extends JavaPlugin {
         this.isPaper = checkIfPaper();
         this.chatFilter = new ChatFilter(this);
         this.muteManager = new MuteManager(this);
+        this.messageManager = new MessageManager(this);
         VaultHook.setupEconomy(this);
         registerCommand();
         saveDefaultConfig();
+        messageManager.saveDefaultMessages();
         registerListeners();
     }
 
@@ -42,6 +46,10 @@ public final class Main extends JavaPlugin {
 
     public MuteManager getMuteManager() {
         return muteManager;
+    }
+
+    public MessageManager getMessageManager() {
+        return messageManager;
     }
 
     public void registerCommand() {

@@ -1,0 +1,35 @@
+# LPC MiniMessage X - Messages Configuration
+# All plugin messages are configurable here using MiniMessage format
+
+# Prefix added before every message (set to "" to disable, a space is added automatically)
+prefix: ""
+
+# Reload message
+reload: "<green>Reloaded LPC Configuration!</green>"
+
+# Chat filter messages
+chat:
+  spam-warning: "<red>Please slow down!</red>"
+  blocked-message: "<red>Your message was blocked by the chat filter.</red>"
+
+# Mute system messages
+mute:
+  muted: "<green>Muted %player%!</green>"
+  unmuted: "<green>Unmuted %player%!</green>"
+  already-muted: "<yellow>%player% is already muted.</yellow>"
+  not-muted: "<yellow>%player% is not muted.</yellow>"
+  mute-list-updated: "<green>Updated mute list!</green>"
+  player-not-found: "<red>Player not found: %player%</red>"
+  console-usage: "<red>Console must specify both source and target players.</red>"
+
+# Permission/error messages
+error:
+  no-permission: "<red>You don't have permission to do this.</red>"
+  player-only: "<red>This command can only be used by players.</red>"
+  usage:
+    lpc: "<red>Usage: /lpc reload</red>"
+    mute: "<red>Usage: /lpc mute <player> [player2...]</red>"
+
+# Item placeholder
+item:
+  no-item: "Air"

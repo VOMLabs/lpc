@@ -31,17 +31,17 @@ public class LPCCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (args.length == 1 && "reload".equals(args[0])) {
             plugin.reloadConfig();
-            String rawReloadMessage = plugin.getConfig().getString("reload-message", "<green>Reloaded LPC Configuration!</green>");
-            Component message = MiniMessage.miniMessage().deserialize(rawReloadMessage);
+            plugin.getMessageManager().reload();
 
             if (plugin.getServer().getName().toLowerCase().contains("paper")) {
-                sender.sendMessage(message);
+                sender.sendMessage(plugin.getMessageManager().getComponent("reload"));
             } else {
-                sender.sendMessage(Main.getLegacySerializer().serialize(message));
+                sender.sendMessage(Main.getLegacySerializer().serialize(plugin.getMessageManager().getComponent("reload")));
             }
             return true;
         }
-        return false;
+        sender.sendMessage(plugin.getMessageManager().getComponent("error.usage.lpc"));
+        return true;
     }
 
 
