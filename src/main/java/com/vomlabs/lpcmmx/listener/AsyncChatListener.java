@@ -3,6 +3,7 @@ package com.vomlabs.lpcmmx.listener;
 import com.vomlabs.lpcmmx.Main;
 import com.vomlabs.lpcmmx.filter.ChatFilter;
 import com.vomlabs.lpcmmx.mute.MuteManager;
+import com.vomlabs.lpcmmx.discord.DiscordWebhook;
 import com.vomlabs.lpcmmx.renderer.LPCChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
@@ -32,6 +33,7 @@ public class AsyncChatListener implements Listener {
         final Player player = event.getPlayer();
         final ChatFilter filter = plugin.getChatFilter();
         final MuteManager muteManager = plugin.getMuteManager();
+        final DiscordWebhook discordWebhook = plugin.getDiscordWebhook();
 
         if (filter.isAntiSpamEnabled() && filter.isSpamming(player.getUniqueId())) {
             player.sendMessage(plugin.getMessageManager().getComponent("chat.spam-warning"));
@@ -47,28 +49,32 @@ public class AsyncChatListener implements Listener {
             }
         }
 
-        // Check if any viewer has muted this player - show grayed out message to them
-        event.renderer((source, sourceDisplayName, message, viewer) -> {
-            Component rendered = lpcChatRenderer.render(source, sourceDisplayName, message, viewer);
-            
-            if (viewer instanceof Player && muteManager.isIgnored(player, ((Player) viewer).getUniqueId())) {
-                // Gray out the message for players who have muted this sender
-                return rendered.replaceText(builder -> builder.match(".*").replacement(Component.text("§7[Ignored] " + PlainTextComponentSerializer.plainText().serialize(rendered))));
+        // Send to Discord webhook
+        if (discordWebhook != null && discordWebhook.isEnabled()) {
+            discordWebhook.sendChatMessage(event.message(), player.getName(), null);
+        }
+
+        // Check if any viewer has muted this player
+        event.viewers().removeIf(viewer -> {
+            if (viewer instanceof Player) {
+                return muteManager.isIgnored(player, ((Player) viewer).getUniqueId());
             }
-            return rendered;
+            return false;
         });
 
-        if(!plugin.getConfig().getBoolean("use-item-placeholder", false) || !player.hasPermission("lpc.itemplaceholder")){
+        if (!plugin.getConfig().getBoolean("use-item-placeholder", false) || !player.hasPermission("lpc.itemplaceholder")) {
             return;
         }
 
         final ItemStack item = player.getInventory().getItemInMainHand();
-        Component displayName = item.getItemMeta() != null && item.getItemMeta().hasDisplayName() ? item.getItemMeta().displayName() : Component.text(item.getType().toString().toLowerCase().replace("_", " "));
+        Component displayName = item.getItemMeta() != null && item.getItemMeta().hasDisplayName()
+                ? item.getItemMeta().displayName()
+                : Component.text(item.getType().toString().toLowerCase().replace("_", " "));
         if (item.getType().equals(Material.AIR) || displayName == null) {
             return;
         }
 
-        if (filter.isSwearFilterEnabled() && filter.filterItemNames) {
+        if (filter.isSwearFilterEnabled() && filter.filterItemNames()) {
             String filteredName = filter.filterItemName(PlainTextComponentSerializer.plainText().serialize(displayName));
             displayName = Component.text(filteredName);
         }
@@ -79,7 +85,7 @@ public class AsyncChatListener implements Listener {
             Component rendered = lpcChatRenderer.render(source, sourceDisplayName, message, viewer)
                     .replaceText(TextReplacementConfig.builder().match(compile("\\[item]", CASE_INSENSITIVE))
                             .replacement(finalDisplayName.hoverEvent(item)).build());
-            
+
             if (viewer instanceof Player && muteManager.isIgnored(player, ((Player) viewer).getUniqueId())) {
                 return Component.text("§7[Ignored] ").append(rendered);
             }

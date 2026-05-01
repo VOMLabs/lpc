@@ -18,6 +18,7 @@
 - Implement chat anti-spam and swear-filtering system, including item name sanitization (e.g. `[ITEM]` will display censored names like `sh*t`).
 - Expand built-in placeholders: `%player-health%` / `<player-health>`, `%player-level%` / `<player-level>`, `%world-time%` / `<world-time>`, `%player-uuid%` / `<player-uuid>`
 - Implement chat mute/ignore player functionality
+- Add Discord webhooks (optional DiscordSRV support, if no DCSRV, then default DC webhooks) integration for cross-platform chat mirroring
 
 ## Planned Features (To Add)
 
@@ -26,6 +27,4 @@
 - Add chat logging to file for server moderation
 - Add support for Minecraft 26.1.0+ versions
 - Implement chat preview feature for Paper 1.21+
-- Add Discord webhook (optional DiscordSRV support, if no DCSRV, then default DC webhooks) integration for cross-platform chat mirroring
 - Add FastStats metrics for usage tracking
-- Implement chat mute/ignore player functionality

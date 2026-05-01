@@ -1,54 +1,4 @@
-# LPC Configuration
-# Please read the https://luckperms.net/wiki/Prefixes,-Suffixes-&-Meta before you set up.
-#
-# Placeholders (supports both %placeholder% and <placeholder> formats):
-# %message% / <message> - the chat message
-# %name% / <name> - the player's name
-# %displayname% / <displayname> - the player's display name / nickname
-# %world% / <world> - the world name of the player's current world
-# %prefix% / <prefix> - the player's highest priority prefix
-# %suffix% / <suffix> - the player's highest priority suffix
-# %prefixes% / <prefixes> - the player's prefixes sorted by the highest priority
-# %suffixes% / <suffixes> - the player's suffixes sorted by the highest priority
-# %username-color% / <username-color> - the player's or the group's username color
-# %message-color% / <message-color> - the player's or the group's message color
-# %balance% / <balance> - the player's current economy balance (requires Vault + economy plugin)
-# %balance-formatted% / <balance-formatted> - the player's formatted economy balance (requires Vault + economy plugin)
-# %player-health% / <player-health> - the player's current health
-# %player-level% / <player-level> - the player's current level
-# %world-time% / <world-time> - the current world time
-# %player-uuid% / <player-uuid> - the player's UUID
-#
-# MiniMessage Gradient and Rainbow support:
-# You can use <gradient:color1:color2:...>text</gradient> and <rainbow>text</rainbow> in chat formats.
-# Examples:
-#   chat-format: "<gradient:red:blue><name></gradient><dark_gray> »<reset> <message>"
-#   chat-format: "<rainbow><name></rainbow><dark_gray> »<reset> <message>"
-#   chat-format: "<gradient:#FF0000:#00FF00:#0000FF><name></gradient><dark_gray> »<reset> <message>"
-
-# WARNING: Prefixes, Suffixes, message-color etc. needs to be Minimessage Colorcodes and not Legacy!
-
-# To reload the configuration, run '/lpc reload' command. Make sure you have the 'lpc.reload' permission assigned.
-# More information can be found at the Github Wiki.
-chat-format: "<prefix><name><dark_gray> »<reset> <message>"
-
-# Set the format per group.
-# Note: Option for more advanced users. Remove comments to run.
-group-formats:
-#  default: "[default] <name><dark_gray> »<reset> <message>"
-#  admin: "[admin] <name><dark_gray> »<reset> <message>"
-
-# Set the format per track
-# Note: Group formatting takes priority over track formatting, ensure user isn't in a group with corresponding format to apply track format
-track-formats:
-#  staff_track: "[staff] <name><dark_gray> »<reset> <message>"
-#  donator_track: "{donator_rank} <name><dark_gray> »<reset> <message>"
-
-# Should the [item] placeholder be enabled
-use-item-placeholder: true
-
-# Editing Reload-message
-reload-message: "<green>Reloaded LPC Configuration!"
+# LPC MiniMessage X Configuration
 
 # Storage Settings
 storage:
@@ -70,6 +20,12 @@ storage:
     database: "lpc"
     username: "root"
     password: ""
+
+# Discord Webhook Settings
+discord:
+  enabled: false
+  webhook-url: ""
+  use-discordsrv: true
 
 # Chat Filter Settings
 filter:
@@ -103,3 +59,46 @@ filter:
       - "piss"
       - "slut"
       - "whore"
+
+# Placeholders (supports both %placeholder% and <placeholder> formats):
+# %message% / <message> - the chat message
+# %name% / <name> - the player's name
+# %displayname% / <displayname> - the player's display name / nickname
+# %world% / <world> - the world name of the player's current world
+# %prefix% / <prefix> - the player's highest priority prefix
+# %suffix% / <suffix> - the player's highest priority suffix
+# %prefixes% / <prefixes> - the player's prefixes sorted by the highest priority
+# %suffixes% / <suffixes> - the player's suffixes sorted by the highest priority
+# %username-color% / <username-color> - the player's or the group's username color
+# %message-color% / <message-color> - the player's or the group's message color
+# %balance% / <balance> - the player's current economy balance (requires Vault + economy plugin)
+# %balance-formatted% / <balance-formatted> - the player's formatted economy balance (requires Vault + economy plugin)
+# %player-health% / <player-health> - the player's current health
+# %player-level% / <player-level> - the player's current level
+# %world-time% / <world-time> - the current world time
+# %player-uuid% / <player-uuid> - the player's UUID
+
+# MiniMessage Gradient and Rainbow support:
+# You can use <gradient:color1:color2:...>text</gradient> and <rainbow>text</rainbow> in chat formats.
+# Examples:
+#   chat-format: "<gradient:red:blue><name></gradient><dark_gray> »<reset> <message>"
+#   chat-format: "<rainbow><name></rainbow><dark_gray> »<reset> <message>"
+#   chat-format: "<gradient:#FF0000:#00FF00:#0000FF><name></gradient><dark_gray> »<reset> <message>"
+
+chat-format: "<prefix><name><dark_gray> »<reset> <message>"
+
+# Format per group (optional)
+group-formats:
+#  default: "[default] <name><dark_gray> »<reset> <message>"
+#  admin: "[admin] <name><dark_gray> »<reset> <message>"
+
+# Format per track (optional)
+track-formats:
+#  staff_track: "[staff] <name><dark_gray> »<reset> <message>"
+#  donator_track: "{donator_rank} <name><dark_gray> »<reset> <message>"
+
+# Enable the [ITEM] placeholder
+use-item-placeholder: true
+
+# Reload message
+reload-message: "<green>Reloaded LPC Configuration!"

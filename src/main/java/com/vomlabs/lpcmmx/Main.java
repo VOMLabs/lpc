@@ -1,6 +1,7 @@
 package com.vomlabs.lpcmmx;
 
 import com.vomlabs.lpcmmx.api.LPCAPI;
+import com.vomlabs.lpcmmx.discord.DiscordWebhook;
 import com.vomlabs.lpcmmx.filter.ChatFilter;
 import com.vomlabs.lpcmmx.integration.VaultHook;
 import com.vomlabs.lpcmmx.listener.AsyncChatListener;
@@ -16,6 +17,7 @@ public final class Main extends JavaPlugin {
     private MuteManager muteManager;
     private MessageManager messageManager;
     private EncryptionManager encryptionManager;
+    private DiscordWebhook discordWebhook;
 
     public static LegacyComponentSerializer getLegacySerializer() {
         return LegacyComponentSerializer.builder()
@@ -32,6 +34,7 @@ public final class Main extends JavaPlugin {
         this.muteManager = new MuteManager(this);
         this.messageManager = new MessageManager(this);
         this.encryptionManager = new EncryptionManager();
+        this.discordWebhook = new DiscordWebhook(this);
         LPCAPI.init(this);
         VaultHook.setupEconomy(this);
         registerCommand();
@@ -81,13 +84,21 @@ public final class Main extends JavaPlugin {
         return messageManager;
     }
 
-    public void reloadMessageManager() {
-        messageManager.reloadAsync().thenRun(() -> 
-            plugin.getLogger().info("Messages reloaded asynchronously")
-        );
+    public EncryptionManager getEncryptionManager() {
+        return encryptionManager;
+    }
+
+    public DiscordWebhook getDiscordWebhook() {
+        return discordWebhook;
     }
 
     public VaultHook getVaultHook() {
         return VaultHook.getInstance();
+    }
+
+    public void reloadMessageManager() {
+        messageManager.reloadAsync().thenRun(() ->
+            plugin.getLogger().info("Messages reloaded asynchronously")
+        );
     }
 }
