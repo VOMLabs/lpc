@@ -4,6 +4,7 @@ import com.vomlabs.lpcmmx.Main;
 import com.vomlabs.lpcmmx.filter.ChatFilter;
 import com.vomlabs.lpcmmx.mute.MuteManager;
 import com.vomlabs.lpcmmx.discord.DiscordWebhook;
+import com.vomlabs.lpcmmx.logging.ChatLogger;
 import com.vomlabs.lpcmmx.renderer.LPCChatRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
@@ -34,6 +35,7 @@ public class AsyncChatListener implements Listener {
         final ChatFilter filter = plugin.getChatFilter();
         final MuteManager muteManager = plugin.getMuteManager();
         final DiscordWebhook discordWebhook = plugin.getDiscordWebhook();
+        final ChatLogger chatLogger = plugin.getChatLogger();
 
         if (filter.isAntiSpamEnabled() && filter.isSpamming(player.getUniqueId())) {
             player.sendMessage(plugin.getMessageManager().getComponent("chat.spam-warning"));
@@ -48,6 +50,9 @@ public class AsyncChatListener implements Listener {
                 event.message(Component.text(filtered));
             }
         }
+
+        // Log the message
+        chatLogger.logMessage(player, event.message());
 
         // Send to Discord webhook
         if (discordWebhook != null && discordWebhook.isEnabled()) {
@@ -74,7 +79,7 @@ public class AsyncChatListener implements Listener {
             return;
         }
 
-        if (filter.isSwearFilterEnabled() && filter.filterItemNames()) {
+        if (filter.isSwearFilterEnabled() && filter.filterItemNames) {
             String filteredName = filter.filterItemName(PlainTextComponentSerializer.plainText().serialize(displayName));
             displayName = Component.text(filteredName);
         }

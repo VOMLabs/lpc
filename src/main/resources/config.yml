@@ -27,6 +27,12 @@ discord:
   webhook-url: ""
   use-discordsrv: true
 
+# Logging Settings
+logging:
+  enabled: true
+  log-connections: true
+  log-commands: false
+
 # Chat Filter Settings
 filter:
   # Anti-Spam Settings
