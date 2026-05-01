@@ -55,11 +55,9 @@ public class ChatFilter {
     public synchronized String filterSwearWords(String message) {
         if (!enabled || message == null) return message;
 
-        // Try native C++ implementation first, fallback to Java
         try {
             return NativeAPI.filterSwearWords(message, filteredWords, replacement);
         } catch (UnsatisfiedLinkError | Exception e) {
-            // Java fallback
             String filtered = message.toLowerCase();
             for (String word : filteredWords) {
                 if (word == null || word.isEmpty()) continue;
@@ -102,7 +100,6 @@ public class ChatFilter {
 
         history.messageTimes.add(now);
 
-        // Try native C++ implementation, fallback to Java
         try {
             long[] timestamps = history.messageTimes.stream().mapToLong(Long::longValue).toArray();
             return NativeAPI.isSpam(timestamps, now, minTimeBetweenMessages, maxMessagesPerWindow, timeWindowSeconds);

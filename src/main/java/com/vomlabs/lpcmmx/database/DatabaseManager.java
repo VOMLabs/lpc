@@ -6,16 +6,21 @@ import org.bukkit.configuration.ConfigurationSection;
 import java.io.File;
 import java.sql.*;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class DatabaseManager {
 
     private final Main plugin;
     private Connection connection;
     private String storageType;
+    private final ExecutorService asyncExecutor;
 
     public DatabaseManager(Main plugin) {
         this.plugin = plugin;
         this.storageType = plugin.getConfig().getString("storage.type", "yaml").toLowerCase();
+        this.asyncExecutor = Executors.newFixedThreadPool(2);
         initDatabase();
     }
 
@@ -133,6 +138,10 @@ public class DatabaseManager {
         }
     }
 
+    public CompletableFuture<Void> saveMutesAsync(Map<UUID, Set<UUID>> mutedPlayers) {
+        return CompletableFuture.runAsync(() -> saveMutes(mutedPlayers), asyncExecutor);
+    }
+
     public void saveMutes(Map<UUID, Set<UUID>> mutedPlayers) {
         if (connection == null) {
             return;
@@ -160,6 +169,10 @@ public class DatabaseManager {
         }
     }
 
+    public CompletableFuture<Map<UUID, Set<UUID>>> loadMutesAsync() {
+        return CompletableFuture.supplyAsync(this::loadMutes, asyncExecutor);
+    }
+
     public Map<UUID, Set<UUID>> loadMutes() {
         Map<UUID, Set<UUID>> mutedPlayers = new HashMap<>();
 
@@ -184,6 +197,10 @@ public class DatabaseManager {
         return mutedPlayers;
     }
 
+    public CompletableFuture<Void> closeAsync() {
+        return CompletableFuture.runAsync(this::close, asyncExecutor);
+    }
+
     public void close() {
         if (connection != null) {
             try {
@@ -192,5 +209,6 @@ public class DatabaseManager {
                 plugin.getLogger().severe("Failed to close database connection: " + e.getMessage());
             }
         }
+        asyncExecutor.shutdown();
     }
 }

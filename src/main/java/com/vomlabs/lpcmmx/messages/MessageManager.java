@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public class MessageManager {
 
@@ -39,6 +40,10 @@ public class MessageManager {
         }
     }
 
+    public CompletableFuture<Void> loadMessagesAsync() {
+        return CompletableFuture.runAsync(this::loadMessages);
+    }
+
     public String getMessage(String path) {
         String prefix = messages.getOrDefault("prefix", "");
         String message = messages.getOrDefault(path, path);
@@ -66,9 +71,11 @@ public class MessageManager {
         return MiniMessage.miniMessage().deserialize(getMessage(path, placeholders));
     }
 
-    public void reload() {
-        messages.clear();
-        loadMessages();
+    public CompletableFuture<Void> reloadAsync() {
+        return CompletableFuture.runAsync(() -> {
+            messages.clear();
+            loadMessages();
+        });
     }
 
     public void saveDefaultMessages() {

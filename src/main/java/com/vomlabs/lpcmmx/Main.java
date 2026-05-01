@@ -81,8 +81,10 @@ public final class Main extends JavaPlugin {
         return messageManager;
     }
 
-    public EncryptionManager getEncryptionManager() {
-        return encryptionManager;
+    public void reloadMessageManager() {
+        messageManager.reloadAsync().thenRun(() -> 
+            plugin.getLogger().info("Messages reloaded asynchronously")
+        );
     }
 
     public VaultHook getVaultHook() {

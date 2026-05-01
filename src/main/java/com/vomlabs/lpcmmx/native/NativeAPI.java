@@ -3,13 +3,8 @@ package com.vomlabs.lpcmmx.native;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
-/**
- * Native C++ API bridge using JNI.
- * Loads the native library and provides native method calls.
- */
 public class NativeAPI {
 
     private static boolean loaded = false;
@@ -17,8 +12,6 @@ public class NativeAPI {
     static {
         if (!loaded) {
             try {
-                // Try to load from resources first, then fall back to system path
-                File nativeLib = null;
                 String os = System.getProperty("os.name").toLowerCase();
                 String libName;
                 if (os.contains("win")) {
@@ -41,19 +34,17 @@ public class NativeAPI {
         return loaded;
     }
 
-    // Native methods - implemented in C++
     private static native String filterSwearWordsNative(String input, String[] words, String replacement);
     private static native boolean isSpamNative(long[] timestamps, long currentTime, long minTime, int maxMessages, int windowSeconds);
     private static native String renderFormatNative(String format, String[] placeholders, String[] values);
 
-    // Public API with fallback to Java
     public static String filterSwearWords(String input, List<String> words, String replacement) {
         if (loaded) {
             try {
                 String[] wordsArray = words.toArray(new String[0]);
                 return filterSwearWordsNative(input, wordsArray, replacement);
             } catch (Exception e) {
-                // Fallback to Java
+                // Fallback
             }
         }
         return filterSwearWordsJava(input, words, replacement);
@@ -64,7 +55,7 @@ public class NativeAPI {
             try {
                 return isSpamNative(timestamps, currentTime, minTime, maxMessages, windowSeconds);
             } catch (Exception e) {
-                // Fallback to Java
+                // Fallback
             }
         }
         return isSpamJava(timestamps, currentTime, minTime, maxMessages, windowSeconds);
@@ -77,13 +68,12 @@ public class NativeAPI {
                 String[] valArray = values.toArray(new String[0]);
                 return renderFormatNative(format, phArray, valArray);
             } catch (Exception e) {
-                // Fallback to Java
+                // Fallback
             }
         }
         return renderFormatJava(format, placeholders, values);
     }
 
-    // Java fallback implementations
     private static String filterSwearWordsJava(String input, List<String> words, String replacement) {
         String result = input.toLowerCase();
         for (String word : words) {
