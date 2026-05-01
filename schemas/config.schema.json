@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LPC MiniMessage X Configuration",
+  "description": "JSON Schema for LPC MiniMessage X config.yml",
+  "type": "object",
+  "properties": {
+    "chat-format": {
+      "type": "string",
+      "description": "The default chat format. Supports MiniMessage formatting and placeholders: {prefix}, {suffix}, {prefixes}, {suffixes}, {world}, {name}, {displayname}, {username-color}, {message-color}, {message}, [item]",
+      "default": "{prefix}{name}<dark_gray> »<reset> {message}"
+    },
+    "group-formats": {
+      "type": "object",
+      "description": "Per-group chat format overrides. Format is group-name: format-string",
+      "additionalProperties": {
+        "type": "string",
+        "description": "Chat format for the group. Same placeholders as chat-format are supported."
+      }
+    },
+    "track-formats": {
+      "type": "object",
+      "description": "Per-track chat format overrides. Track must exist in LuckPerms. Group formats take priority over track formats.",
+      "additionalProperties": {
+        "type": "string",
+        "description": "Chat format for the track. Same placeholders as chat-format are supported."
+      }
+    },
+    "use-item-placeholder": {
+      "type": "boolean",
+      "description": "Enable the [item] placeholder that shows the item in hand with hover info.",
+      "default": true
+    },
+    "reload-message": {
+      "type": "string",
+      "description": "Message shown when config is reloaded using /lpc reload. Supports MiniMessage formatting.",
+      "default": "<green>Reloaded LPC Configuration!"
+    }
+  },
+  "required": ["chat-format", "use-item-placeholder", "reload-message"],
+  "additionalProperties": false
+}

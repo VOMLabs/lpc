@@ -1,0 +1,13 @@
+{
+  "yaml.schemas": {
+    "./schemas/config.schema.json": [
+      "src/main/resources/config.yml"
+    ],
+    "./schemas/paper-plugin.schema.json": [
+      "src/main/resources/paper-plugin.yml"
+    ]
+  },
+  "yaml.validate": true,
+  "yaml.format.enable": true,
+  "yaml.completion": true
+}

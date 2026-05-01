@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Paper Plugin Configuration",
+  "description": "JSON Schema for Paper plugin.yml / paper-plugin.yml",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the plugin",
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "default": "LPC MiniMessage X"
+    },
+    "version": {
+      "type": "string",
+      "description": "The version of the plugin. Can use ${version} placeholder for Gradle expansion."
+    },
+    "main": {
+      "type": "string",
+      "description": "The fully qualified class name of the plugin's main class.",
+      "default": "com.vomlabs.lpcmmx.Main"
+    },
+    "api-version": {
+      "type": "string",
+      "description": "The Minecraft API version this plugin is designed for.",
+      "pattern": "^1\\.2[1-9](\\.\\d+)?$",
+      "default": "1.21"
+    },
+    "authors": {
+      "type": "array",
+      "description": "List of plugin authors.",
+      "items": {
+        "type": "string"
+      },
+      "default": ["ItzzMateo", "VOMLabs"]
+    },
+    "depend": {
+      "type": "array",
+      "description": "List of plugins that this plugin depends on. Server will disable this plugin if any are missing.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "softdepend": {
+      "type": "array",
+      "description": "List of plugins that this plugin optionally depends on. Will load after these if present.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "description": {
+      "type": "string",
+      "description": "Short description of the plugin."
+    },
+    "website": {
+      "type": "string",
+      "description": "Plugin website URL.",
+      "format": "uri"
+    },
+    "commands": {
+      "type": "object",
+      "description": "Commands provided by this plugin.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "usage": {
+            "type": "string"
+          },
+          "permission": {
+            "type": "string"
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "description": "Permissions provided by this plugin.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "default": {
+            "type": ["boolean", "string"]
+          },
+          "children": {
+            "type": "object",
+            "additionalProperties": {
+              "type": ["boolean", "object"]
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["name", "version", "main", "api-version"],
+  "additionalProperties": false
+}
