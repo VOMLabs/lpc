@@ -15,12 +15,12 @@
 - Add JSON schema validation for `config.yml` and `paper-plugin.yml`
 - Integrate with Vault for economy-related placeholders
 - Support MiniMessage gradient and rainbow tags in chat formats and config
+- Implement chat anti-spam and swear-filtering system, including item name sanitization (e.g. `[ITEM]` will display censored names like `sh*t`).
+- Expand built-in placeholders: `%player-health%` / `<player-health>`, `%player-level%` / `<player-level>`, `%world-time%` / `<world-time>`, `%player-uuid%` / `<player-uuid>`
 
 ## Planned Features (To Add)
 
 - Add per-world chat format support
-- Implement chat anti-spam and filtering system
-- Expand built-in placeholders: `{player-health}`, `{player-level}`, `{world-time}`, `{player-uuid}`
 - Add per-player chat format overrides via permissions or `/lpc` command
 - Add chat logging to file for server moderation
 - Add support for Minecraft 26.1.0+ versions

@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=../schemas/config.schema.json
 # LPC Configuration
 # Please read the https://luckperms.net/wiki/Prefixes,-Suffixes-&-Meta before you set up.
 #
@@ -15,6 +14,10 @@
 # %message-color% / <message-color> - the player's or the group's message color
 # %balance% / <balance> - the player's current economy balance (requires Vault + economy plugin)
 # %balance-formatted% / <balance-formatted> - the player's formatted economy balance (requires Vault + economy plugin)
+# %player-health% / <player-health> - the player's current health
+# %player-level% / <player-level> - the player's current level
+# %world-time% / <world-time> - the current world time
+# %player-uuid% / <player-uuid> - the player's UUID
 #
 # MiniMessage Gradient and Rainbow support:
 # You can use <gradient:color1:color2:...>text</gradient> and <rainbow>text</rainbow> in chat formats.
@@ -46,3 +49,36 @@ use-item-placeholder: true
 
 # Editing Reload-message
 reload-message: "<green>Reloaded LPC Configuration!"
+
+# Chat Filter Settings
+filter:
+  # Anti-Spam Settings
+  anti-spam:
+    enabled: true
+    # Minimum time between messages in milliseconds (500ms = 0.5s)
+    min-time-between-messages: 500
+    # Maximum number of messages allowed within the time window
+    max-messages-per-window: 5
+    # Time window in seconds to check for spam
+    time-window-seconds: 5
+
+  # Swear Filter Settings
+  swear:
+    enabled: true
+    # Characters to replace swear words with
+    replacement: "*"
+    # Also filter item names when using [ITEM] placeholder
+    filter-item-names: true
+    # List of words to filter (case-insensitive, whole word match)
+    words:
+      - "shit"
+      - "fuck"
+      - "damn"
+      - "bitch"
+      - "asshole"
+      - "bastard"
+      - "cunt"
+      - "dick"
+      - "piss"
+      - "slut"
+      - "whore"

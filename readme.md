@@ -37,10 +37,11 @@
 
 - Full [MiniMessage](https://docs.advntr.dev/minimessage/format.html) formatting support
 - **Gradient & Rainbow tags** – `<gradient:red:blue>` and `<rainbow>` in chat formats
+- **Chat anti-spam & swear filtering** – configurable filter with item name filtering
 - Group and track-specific chat formats
 - Optional support for PlaceholderAPI
-- **Vault economy integration** – `{balance}` and `{balance-formatted}` placeholders
-- Supports `[ITEM]` placeholder with hover info
+- **Vault economy integration** – `%balance%` / `<balance>` and `%balance-formatted%` / `<balance-formatted>` placeholders
+- Supports `[ITEM]` placeholder with hover info (with swear filtering)
 - Customizable reload message
 - JSON Schema validation for `config.yml` and `paper-plugin.yml`
 - Modern Paper plugin format (`paper-plugin.yml`)
@@ -109,6 +110,10 @@ reload-message: "<green>Reloaded LPC Configuration!"
 | `%message-color%` / `<message-color>` | Message color from LuckPerms meta |
 | `%balance%` / `<balance>` | Player's economy balance (requires Vault) |
 | `%balance-formatted%` / `<balance-formatted>` | Player's formatted economy balance (requires Vault) |
+| `%player-health%` / `<player-health>` | Player's current health |
+| `%player-level%` / `<player-level>` | Player's current level |
+| `%world-time%` / `<world-time>` | Current world time |
+| `%player-uuid%` / `<player-uuid>` | Player's UUID |
 
 > ℹ️ **Important:** All color values (prefix, suffix, etc.) must be in **MiniMessage format** – no legacy codes (`&a`, `§b`, etc.)
 

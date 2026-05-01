@@ -6,7 +6,7 @@
   "properties": {
     "chat-format": {
       "type": "string",
-      "description": "The default chat format. Supports MiniMessage formatting (including <gradient:color1:color2> and <rainbow> tags) and placeholders: %prefix%/<prefix>, %suffix%/<suffix>, %prefixes%/<prefixes>, %suffixes%/<suffixes>, %world%/<world>, %name%/<name>, %displayname%/<displayname>, %username-color%/<username-color>, %message-color%/<message-color>, %message%/<message>, [item], %balance%/<balance>, %balance-formatted%/<balance-formatted>",
+      "description": "The default chat format. Supports MiniMessage formatting (including <gradient:color1:color2> and <rainbow> tags) and placeholders: %prefix%/<prefix>, %suffix%/<suffix>, %prefixes%/<prefixes>, %suffixes%/<suffixes>, %world%/<world>, %name%/<name>, %displayname%/<displayname>, %username-color%/<username-color>, %message-color%/<message-color>, %message%/<message>, [item], %balance%/<balance>, %balance-formatted%/<balance-formatted>, %player-health%/<player-health>, %player-level%/<player-level>, %world-time%/<world-time>, %player-uuid%/<player-uuid>",
       "default": "{prefix}{name}<dark_gray> »<reset> {message}",
       "examples": [
         "{prefix}{name}<dark_gray> »<reset> {message}",

@@ -1,11 +1,13 @@
 package com.vomlabs.lpcmmx.listener;
 
 import com.vomlabs.lpcmmx.Main;
+import com.vomlabs.lpcmmx.filter.ChatFilter;
 import net.kyori.adventure.text.Component;
 import com.vomlabs.lpcmmx.renderer.SpigotChatRenderer;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -56,9 +58,22 @@ public class SpigotChatListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onChat(AsyncPlayerChatEvent event) {
+        Player player = event.getPlayer();
+        ChatFilter filter = plugin.getChatFilter();
+
+        if (filter.isAntiSpamEnabled() && filter.isSpamming(player.getUniqueId())) {
+            player.sendMessage("§cPlease slow down!");
+            event.setCancelled(true);
+            return;
+        }
+
         String message = event.getMessage();
 
-        if (event.getPlayer().hasPermission("lpc.chatcolor")) {
+        if (filter.isSwearFilterEnabled()) {
+            message = filter.filterSwearWords(message);
+        }
+
+        if (player.hasPermission("lpc.chatcolor")) {
             message = message.replaceAll("§", "&");
             for (Map.Entry<String, String> entry : legacyToMiniMessageColors.entrySet()) {
                 message = message.replace(entry.getKey(), entry.getValue());
@@ -69,8 +84,8 @@ public class SpigotChatListener implements Listener {
             }
         }
 
-        if (plugin.getConfig().getBoolean("use-item-placeholder", false) && event.getPlayer().hasPermission("lpc.itemplaceholder")) {
-            final ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
+        if (plugin.getConfig().getBoolean("use-item-placeholder", false) && player.hasPermission("lpc.itemplaceholder")) {
+            final ItemStack item = player.getInventory().getItemInMainHand();
             if (!item.getType().equals(Material.AIR)) {
                 String itemName = item.getType().toString().toLowerCase().replace("_", " ");
                 ItemMeta meta = item.getItemMeta();
@@ -93,6 +108,10 @@ public class SpigotChatListener implements Listener {
                                             .build()
                                             .deserialize(displayName)
                             );
+                        }
+
+                        if (filter.isSwearFilterEnabled() && filter.filterItemNames) {
+                            itemName = filter.filterItemName(itemName);
                         }
                     }
 

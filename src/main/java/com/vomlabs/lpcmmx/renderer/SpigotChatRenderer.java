@@ -84,6 +84,14 @@ public class SpigotChatRenderer {
                 .replace("<balance>", VaultHook.hasEconomy() ? String.valueOf(VaultHook.getBalance(source)) : "0")
                 .replace("%balance-formatted%", VaultHook.hasEconomy() ? VaultHook.getFormattedBalance(source) : "0")
                 .replace("<balance-formatted>", VaultHook.hasEconomy() ? VaultHook.getFormattedBalance(source) : "0")
+                .replace("%player-health%", String.valueOf(source.getHealth()))
+                .replace("<player-health>", String.valueOf(source.getHealth()))
+                .replace("%player-level%", String.valueOf(source.getLevel()))
+                .replace("<player-level>", String.valueOf(source.getLevel()))
+                .replace("%world-time%", String.valueOf(source.getWorld().getTime()))
+                .replace("<world-time>", String.valueOf(source.getWorld().getTime()))
+                .replace("%player-uuid%", source.getUniqueId().toString())
+                .replace("<player-uuid>", source.getUniqueId().toString())
                 .replace("%message%", plainMessage)
                 .replace("<message>", plainMessage);
 

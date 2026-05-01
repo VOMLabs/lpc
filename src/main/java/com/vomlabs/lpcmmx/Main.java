@@ -1,6 +1,7 @@
 package com.vomlabs.lpcmmx;
 
 import com.vomlabs.lpcmmx.commands.LPCCommand;
+import com.vomlabs.lpcmmx.filter.ChatFilter;
 import com.vomlabs.lpcmmx.integration.VaultHook;
 import com.vomlabs.lpcmmx.listener.AsyncChatListener;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -10,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {
     private boolean isPaper;
+    private ChatFilter chatFilter;
 
     private static final LegacyComponentSerializer legacySerializer = LegacyComponentSerializer.builder()
             .character('§')
@@ -24,10 +26,15 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         this.isPaper = checkIfPaper();
+        this.chatFilter = new ChatFilter(this);
         VaultHook.setupEconomy(this);
         registerCommand();
         saveDefaultConfig();
         registerListeners();
+    }
+
+    public ChatFilter getChatFilter() {
+        return chatFilter;
     }
 
     public void registerCommand() {
