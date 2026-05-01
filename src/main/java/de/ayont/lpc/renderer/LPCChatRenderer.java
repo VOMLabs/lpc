@@ -107,12 +107,12 @@ public class LPCChatRenderer implements ChatRenderer {
             }
         }
 
-        format = format.replace("{message}", plainMessage);
-
         if (hasPapi) {
             format = PlaceholderAPI.setPlaceholders(source, format);
         }
 
-        return miniMessage.deserialize(format);
+        format = format.replace("{message}", plainMessage);
+
+        return miniMessage.deserialize(format.replace("%%", "%"));
     }
 }

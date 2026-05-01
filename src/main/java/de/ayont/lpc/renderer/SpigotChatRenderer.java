@@ -57,6 +57,10 @@ public class SpigotChatRenderer {
             format = plugin.getConfig().getString("chat-format");
         }
 
+        if (hasPapi) {
+            format = PlaceholderAPI.setPlaceholders(source, format);
+        }
+
         format = format.replace("{prefix}", metaData.getPrefix() != null ? metaData.getPrefix() : "")
                 .replace("{suffix}", metaData.getSuffix() != null ? metaData.getSuffix() : "")
                 .replace("{prefixes}", String.join(" ", metaData.getPrefixes().values()))
@@ -68,11 +72,7 @@ public class SpigotChatRenderer {
                 .replace("{message-color}", metaData.getMetaValue("message-color") != null ? Objects.requireNonNull(metaData.getMetaValue("message-color")) : "")
                 .replace("{message}", plainMessage);
 
-        if (hasPapi) {
-            format = PlaceholderAPI.setPlaceholders(source, format);
-        }
-
-        return miniMessage.deserialize(format);
+        return miniMessage.deserialize(format.replace("%%", "%"));
     }
 
     private String stripMiniMessageTags(String message) {
