@@ -98,6 +98,18 @@
 |----------------------|-------------|---------|
 | `lpc.format`         | Set per-player chat format override | false   |
 
+### Chat Suspend
+
+| Permission Node       | Description | Default |
+|----------------------|-------------|---------|
+| `lpc.suspend`        | Suspend/unsuspend players from chat | op      |
+
+### Chat Translation
+
+| Permission Node       | Description | Default |
+|----------------------|-------------|---------|
+| `lpc.translate`       | Toggle chat translation for yourself | false   |
+
 ### Admin Commands
 
 | Command               | Permission Node | Description |
@@ -109,6 +121,16 @@
 | `/lpc format`         | `lpc.format`    | View current chat format |
 | `/lpc format <name>`  | `lpc.format`    | Set chat format override |
 | `/lpc format clear`  | `lpc.format`    | Clear chat format override |
+| `/lpc suspend <player> [time]` | `lpc.suspend` | Suspend player from chat |
+| `/lpc unsuspend <player>` | `lpc.suspend` | Remove chat suspension |
+| `/lpc translate`      | `lpc.translate`  | Toggle chat translation |
+| `/lpc report <player> <reason>` | `lpc.report` | Report player to staff |
+
+### Chat Emoji Support
+- Use `:emoji_name:` for Unicode emojis (`:smile:`, `:heart:`, etc.)
+- Use `{custom_emoji}` for custom server emojis
+- Custom emojis can have hover text and permission requirements
+- Built-in support for 20+ common emojis
 
 ---
 

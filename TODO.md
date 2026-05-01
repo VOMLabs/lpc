@@ -5,6 +5,11 @@
 - Add FastStats metrics for usage tracking
 - Implement per-player chat format overrides via `/lpc format` command
 - Implement chat preview feature for Paper 1.21+
+- Implement chat suspend feature (temporarily disable chat for player)
+- Implement chat translation support (auto-translate messages, toggle with /lpc translate)
+- Implement chat URL filtering with clickable links
+- Add chat emojis and custom emoji support
+- Implement chat reporting system with Discord integration
 - Update Gradle wrapper to 8.14.4
 - Update dependencies: net.kyori:adventure-platform-bukkit to 4.4.1, me.clip:placeholderapi to 2.12.2, net.kyori:adventure-text-minimessage to 4.26.1, net.luckperms:api to 5.5
 - Update GitHub Actions: actions/checkout to v6, actions/setup-java to v5, gradle/actions to v6
@@ -49,4 +54,3 @@
 - Implement chat game mode restrictions (disable chat in specific gamemodes)
 - Add chat distance-based messaging (local chat only)
 - Implement chat suspend feature (temporarily disable chat for player)
-- Add chat analytics dashboard with FastStats

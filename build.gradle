@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'proguard' version '7.4.2'
 }
 
 group = 'com.vomlabs.lpcmmx'
@@ -31,6 +32,10 @@ repositories {
     maven {
         name = "faststatsReleases"
         url = "https://repo.faststats.dev/releases"
+    }
+    maven {
+        name = "gradlePluginPortal"
+        url = "https://plugins.gradle.org/m2/"
     }
 }
 
@@ -97,7 +102,48 @@ shadowJar {
         exclude 'META-INF/*.DSA'
         exclude 'META-INF/*.RSA'
     }
+    // Obfuscate strings in the jar
+    dependencies {
+        exclude(dependency('org.bouncycastle:.*'))
+        exclude(dependency('net.kyori:.*'))
+        exclude(dependency('io.papermc:.*'))
+        exclude(dependency('me.clip:.*'))
+        exclude(dependency('net.luckperms:.*'))
+    }
 }
+
+// ProGuard obfuscation task
+task proguard(type: proguard.gradle.ProGuardTask, dependsOn: shadowJar) {
+    configuration 'proguard.txt'
+    injars "build/libs/LPC-Minimessage.jar"
+    outjars "build/libs/LPC-Minimessage-obfuscated.jar"
+    libraryjars files(configurations.runtimeClasspath.collect())
+    libraryjars files(configurations.compileClasspath.collect())
+    libraryjars "${System.getProperty('java.home')}/lib/rt.jar"
+    libraryjars "${System.getProperty('java.home')}/lib/jce.jar"
+    printmapping "build/libs/mapping.txt"
+    ignorewarnings()
+    optimizations '!code/simplification/arithmetic,!field/*,!class/merging/*'
+}
+
+// Additional string encryption pass
+task stringEncrypt(type: JavaExec, dependsOn: compileJava) {
+    description = 'Apply additional string encryption'
+    classpath = files(configurations.runtimeClasspath, sourceSets.main.runtimeClasspath)
+    main = 'com.vomlabs.lpcmmx.obfuscation.StringEncryptor'
+    args = ['build/classes/java/main', 'build/classes/java/main-encrypted']
+}
+
+// Combine all obfuscation steps
+task fullObfuscate(dependsOn: [stringEncrypt, proguard]) {
+    description = 'Apply all obfuscation techniques'
+    doLast {
+        println "Full obfuscation complete: build/libs/LPC-Minimessage-obfuscated.jar"
+    }
+}
+
+build.finalizedBy(fullObfuscate)
+
 
 def targetJavaVersion = 21
 java {

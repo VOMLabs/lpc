@@ -3,6 +3,10 @@ package com.vomlabs.lpcmmx.listener;
 import com.vomlabs.lpcmmx.Main;
 import com.vomlabs.lpcmmx.filter.ChatFilter;
 import com.vomlabs.lpcmmx.mute.MuteManager;
+import com.vomlabs.lpcmmx.emoji.EmojiManager;
+import com.vomlabs.lpcmmx.suspend.ChatSuspendManager;
+import com.vomlabs.lpcmmx.translation.TranslationManager;
+import com.vomlabs.lpcmmx.url.URLFilter;
 import com.vomlabs.lpcmmx.discord.DiscordWebhook;
 import com.vomlabs.lpcmmx.logging.ChatLogger;
 import com.vomlabs.lpcmmx.renderer.LPCChatRenderer;
@@ -34,8 +38,20 @@ public class AsyncChatListener implements Listener {
         final Player player = event.getPlayer();
         final ChatFilter filter = plugin.getChatFilter();
         final MuteManager muteManager = plugin.getMuteManager();
+        final ChatSuspendManager suspendManager = plugin.getSuspendManager();
+        final TranslationManager translationManager = plugin.getTranslationManager();
+        final URLFilter urlFilter = plugin.getURLFilter();
         final DiscordWebhook discordWebhook = plugin.getDiscordWebhook();
         final ChatLogger chatLogger = plugin.getChatLogger();
+
+        // Check if player is suspended
+        if (suspendManager.isSuspended(player.getUniqueId())) {
+            ChatSuspendManager.SuspensionInfo info = suspendManager.getSuspensionInfo(player.getUniqueId());
+            String reason = info != null ? info.reason : "No reason";
+            player.sendMessage(plugin.getMessageManager().getComponent("suspend.chat-blocked", "reason", reason));
+            event.setCancelled(true);
+            return;
+        }
 
         if (filter.isAntiSpamEnabled() && filter.isSpamming(player.getUniqueId())) {
             player.sendMessage(plugin.getMessageManager().getComponent("chat.spam-warning"));
@@ -43,16 +59,48 @@ public class AsyncChatListener implements Listener {
             return;
         }
 
+        String plainMessage = PlainTextComponentSerializer.plainText().serialize(event.message());
+
         if (filter.isSwearFilterEnabled()) {
-            String plainMessage = PlainTextComponentSerializer.plainText().serialize(event.message());
             String filtered = filter.filterSwearWords(plainMessage);
             if (!plainMessage.equals(filtered)) {
                 event.message(Component.text(filtered));
+                plainMessage = filtered;
+            }
+        }
+
+        // Process emojis
+        EmojiManager emojiManager = plugin.getEmojiManager();
+        Component emojiProcessed = emojiManager.processMessage(plainMessage, player);
+        if (emojiProcessed != null) {
+            event.message(emojiProcessed);
+            plainMessage = PlainTextComponentSerializer.plainText().serialize(event.message());
+        }
+
+        // Process URLs with clickable links
+        if (urlFilter.containsURL(plainMessage)) {
+            if (plugin.getConfig().getBoolean("url-filter.block-messages", false)) {
+                player.sendMessage(plugin.getMessageManager().getComponent("url.blocked"));
+                event.setCancelled(true);
+                return;
+            }
+            Component urlProcessed = urlFilter.processMessage(plainMessage);
+            if (urlProcessed != null) {
+                event.message(urlProcessed);
             }
         }
 
         // Log the message
         chatLogger.logMessage(player, event.message());
+
+        // Apply translation if enabled
+        if (translationManager.isTranslationEnabled(player.getUniqueId())) {
+            String targetLang = translationManager.getLanguage(player.getUniqueId());
+            translationManager.translate(plainMessage, targetLang).thenAccept(translated -> {
+                // Store translated message for Discord/spectators
+                player.setMetadata("translated_msg", new org.bukkit.metadata.FixedMetadataValue(plugin, translated));
+            });
+        }
 
         // Send to Discord webhook
         if (discordWebhook != null && discordWebhook.isEnabled()) {

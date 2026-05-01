@@ -128,5 +128,53 @@ use-item-placeholder: true
 chat-preview:
   enabled: true
 
+# Chat Suspend Settings
+suspend:
+  enabled: true
+  default-duration: 300 # seconds (5 minutes)
+
+# Translation Settings
+translation:
+  enabled: false
+  default-language: "en"
+  # API configuration (when enabled)
+  # api-provider: "google" # google, deepl, etc.
+  # api-key: ""
+
+# URL Filter Settings
+url-filter:
+  enabled: true
+  # Block messages with URLs entirely
+  block-messages: false
+
+# Emoji Settings
+emojis:
+  enabled: true
+  # Custom emojis: use {emoji_name} in chat
+  custom:
+    heart:
+      emoji: "❤"
+      hover: "Heart emoji"
+      require-permission: false
+    star:
+      emoji: "⭐"
+      hover: "Star emoji"
+      require-permission: false
+    cool:
+      emoji: "😎"
+      hover: "Cool emoji"
+      require-permission: true
+    love:
+      emoji: "😍"
+      hover: "Love emoji"
+      require-permission: false
+
+# Report System Settings
+reporting:
+  enabled: true
+  discord:
+    enabled: true
+    webhook-url: ""
+
 # Reload message
 reload-message: "<green>Reloaded LPC Configuration!"

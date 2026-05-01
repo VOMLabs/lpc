@@ -61,6 +61,34 @@ permissions:
     description: Set per-player chat format override
     default: false
 
+  lpc.suspend:
+    description: Suspend/unsuspend players from chat
+    default: op
+
+  lpc.translate:
+    description: Toggle chat translation for yourself
+    default: false
+
+  lpc.emoji:
+    description: Use emojis in chat
+    default: true
+
+  lpc.emoji.custom:
+    description: Use custom emojis (requires specific permission per emoji)
+    default: false
+    children:
+      lpc.emoji.custom.love: true
+      lpc.emoji.custom.star: true
+      lpc.emoji.custom.heart: true
+
+  lpc.report:
+    description: Report players to staff
+    default: true
+
+  lpc.report.staff:
+    description: Receive report notifications (staff only)
+    default: op
+
   lpc.mute:
     description: Allows muting/unmuting players for yourself
     default: false

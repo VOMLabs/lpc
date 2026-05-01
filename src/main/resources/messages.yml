@@ -52,3 +52,46 @@ format:
   set: "<green>Chat format set to: %format%</green>"
   cleared: "<green>Custom chat format cleared!</green>"
   not-found: "<red>Format not found: %format%</red>"
+
+# Chat Suspend system
+suspend:
+  suspended: "<red>You have been suspended from chat!</red>\n<yellow>Reason: %reason%</yellow>\n<gray>Time remaining: Check with /lpc suspension</gray>"
+  unsuspended: "<green>You are no longer suspended from chat.</green>"
+  notify: "<red>Your chat has been suspended!</red>\n<yellow>Reason: %reason%</yellow>"
+  chat-blocked: "<red>You cannot chat right now.</red>\n<yellow>Reason: %reason%</yellow>"
+  suspension-info: "<yellow>Suspension info:</yellow>\n<gray>Reason: %reason%</gray>\n<gray>Time left: %time-left% seconds</gray>"
+
+# Translation system
+translate:
+  enabled: "<green>Chat translation enabled!</green>"
+  disabled: "<green>Chat translation disabled!</green>"
+
+# URL Filter
+url:
+  blocked: "<red>URLs are not allowed in chat!</red>"
+
+# Emoji Messages
+emoji:
+  no-permission: "<red>You don't have permission to use emojis.</red>"
+  custom-no-permission: "<red>You don't have permission to use this custom emoji.</red>"
+
+# Report System
+report:
+  no-permission: "<red>You don't have permission to report players.</red>"
+  submitted: "<green>Report submitted for %player%!</green>"
+  notify-staff: "<yellow>[Report] %reporter% reported %player% for: %reason%</yellow>"
+  not-found: "<red>Player not found: %player%</red>"
+  usage: "<red>Usage: /lpc report <player> <reason></red>"
+
+# Error/Usage messages
+error:
+  usage:
+    lpc: "<red>Usage: /lpc <reload|format|suspend|unsuspend|translate|report></red>"
+    mute: "<red>Usage: /lpc mute <player> [player2...]</red>"
+    suspend: "<red>Usage: /lpc suspend <player> [time_seconds] [reason]</red>"
+    unsuspend: "<red>Usage: /lpc unsuspend <player></red>"
+
+# Emoji Messages
+emoji:
+  no-permission: "<red>You don't have permission to use emojis.</red>"
+  custom-no-permission: "<red>You don't have permission to use this custom emoji.</red>"

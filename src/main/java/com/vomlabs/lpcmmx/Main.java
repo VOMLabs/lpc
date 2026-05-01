@@ -5,15 +5,22 @@ import com.vomlabs.lpcmmx.commands.LPCCommand;
 import com.vomlabs.lpcmmx.commands.MSGCommand;
 import com.vomlabs.lpcmmx.commands.MuteCommand;
 import com.vomlabs.lpcmmx.discord.DiscordWebhook;
+import com.vomlabs.lpcmmx.emoji.EmojiManager;
 import com.vomlabs.lpcmmx.filter.ChatFilter;
 import com.vomlabs.lpcmmx.format.PlayerFormatManager;
 import com.vomlabs.lpcmmx.integration.VaultHook;
 import com.vomlabs.lpcmmx.listener.AsyncChatListener;
-import com.vomlabs.lpcmmx.listener.ChatPreviewListener;
 import com.vomlabs.lpcmmx.logging.ChatLogger;
 import com.vomlabs.lpcmmx.messages.MessageManager;
 import com.vomlabs.lpcmmx.mute.MuteManager;
+import com.vomlabs.lpcmmx.report.ReportManager;
 import com.vomlabs.lpcmmx.security.EncryptionManager;
+import com.vomlabs.lpcmmx.suspend.ChatSuspendManager;
+import com.vomlabs.lpcmmx.translation.TranslationManager;
+import com.vomlabs.lpcmmx.url.URLFilter;
+import com.vomlabs.lpcmmx.obfuscation.StringObfuscator;
+import com.vomlabs.lpcmmx.obfuscation.ReflectionHider;
+import com.vomlabs.lpcmmx.obfuscation.ClassRenamer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import dev.faststats.bukkit.BukkitMetrics;
 import dev.faststats.core.Metrics;
@@ -25,6 +32,11 @@ public final class Main extends JavaPlugin {
     private MuteManager muteManager;
     private MessageManager messageManager;
     private PlayerFormatManager playerFormatManager;
+    private ChatSuspendManager suspendManager;
+    private TranslationManager translationManager;
+    private EmojiManager emojiManager;
+    private ReportManager reportManager;
+    private URLFilter urlFilter;
     private EncryptionManager encryptionManager;
     private DiscordWebhook discordWebhook;
     private ChatLogger chatLogger;
@@ -42,11 +54,24 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // Initialize obfuscation
+        try {
+            ClassRenamer.initialize();
+            ReflectionHider.hideReflection(this.getClass());
+        } catch (Exception e) {
+            // Ignore obfuscation errors
+        }
+
         this.isPaper = checkIfPaper();
         this.chatFilter = new ChatFilter(this);
         this.muteManager = new MuteManager(this);
         this.messageManager = new MessageManager(this);
         this.playerFormatManager = new PlayerFormatManager(this);
+        this.suspendManager = new ChatSuspendManager(this);
+        this.translationManager = new TranslationManager(this);
+        this.emojiManager = new EmojiManager(this);
+        this.reportManager = new ReportManager(this);
+        this.urlFilter = new URLFilter(this);
         this.encryptionManager = new EncryptionManager();
         this.discordWebhook = new DiscordWebhook(this);
         this.chatLogger = new ChatLogger(this);
@@ -117,6 +142,26 @@ public final class Main extends JavaPlugin {
 
     public PlayerFormatManager getPlayerFormatManager() {
         return playerFormatManager;
+    }
+
+    public ChatSuspendManager getSuspendManager() {
+        return suspendManager;
+    }
+
+    public TranslationManager getTranslationManager() {
+        return translationManager;
+    }
+
+    public URLFilter getURLFilter() {
+        return urlFilter;
+    }
+
+    public EmojiManager getEmojiManager() {
+        return emojiManager;
+    }
+
+    public ReportManager getReportManager() {
+        return reportManager;
     }
 
     public MessageManager getMessageManager() {

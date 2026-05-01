@@ -1,0 +1,87 @@
+# ProGuard configuration for LPC MiniMessage X
+# Heavy obfuscation settings
+
+# Basic options
+-optimizationpasses 5
+-mergeinterfacesaggressively
+-allowaccessmodification
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontskipnonpubliclibraryclassmembers
+-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,LocalVariable*Table,*Annotation*,Synthetic,EnclosingMethod,Lambda*
+
+# Keep Bukkit/Spigot/Paper entry points
+-keep public class * extends org.bukkit.plugin.java.JavaPlugin {
+    public *;
+    protected *;
+}
+
+# Keep main class
+-keep public class com.vomlabs.lpcmmx.Main {
+    public *;
+    protected *;
+}
+
+# Keep command classes
+-keep public class com.vomlabs.lpcmmx.commands.* {
+    public *;
+    protected *;
+}
+
+# Keep listener classes
+-keep public class com.vomlabs.lpcmmx.listener.* {
+    public *;
+    protected *;
+    <methods>;
+}
+
+# Keep LuckPerms API usage
+-keep class net.luckperms.** { *; }
+-keep interface net.luckperms.** { *; }
+
+# Keep PlaceholderAPI
+-keep class me.clip.placeholderapi.** { *; }
+
+# Keep Vault API
+-keep class net.milkbowl.vault.** { *; }
+
+# Keep native methods
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+# Keep classes that are serialized
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    !static !transient <fields>;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
+
+# Obfuscation options
+-useuniqueclassmembernames
+-adaptclassstrings
+-adaptresourcefilenames
+-adaptresourcefilecontents
+
+# String encryption (custom)
+-keepattributes InnerClasses,Signature,Exceptions
+
+# Keep annotations
+-keepattributes *Annotation*
+
+# Don't warn about missing classes
+-dontwarn org.bouncycastle.**
+-dontwarn com.mongodb.**
+-dontwarn org.graalvm.**
+-dontwarn io.papermc.**
+-dontwarn net.kyori.**
+-dontwarn com.github.**
+-dontwarn org.json.**
+-dontwarn org.intellij.**
+
+# Optimizations
+-optimizations !method/inlining/short,!field/propagation/value
