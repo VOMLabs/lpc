@@ -24,23 +24,6 @@
 - Implement 10 layer encryption and hash to the plugin when compiling, make it using dependencies, etc. do not make it yourself
 - Change more parts of the plugin to be async and concurrent
 - Add a prefix line to the messages.yml, this prefix will be added before every message by the system automatically
-- Implement chat mute/ignore player functionality
-- Add chat logging to file for server moderation
-- Implement Discord webhook (optional DiscordSRV support, if no DCSRV, then default DC webhooks) integration for cross-platform chat mirroring
-- Implement 10 layer encryption and hash to the plugin when compiling, make it using dependencies, etc. do not make it yourself
-- Change more parts of the plugin to be async and concurrent
-- Add a prefix line to the messages.yml
-- Upgrade the API so it is type-safe, and also extend the API while also rewriting it in C++
-- Add per-world chat format support
-- Add chat logging to file for server moderation
-- Implement Discord webhook (optional DiscordSRV support, if no DCSRV, then default DC webhooks) integration for cross-platform chat mirroring
-- Implement 10 layer encryption and hash to the plugin when compiling, make it using dependencies, etc. do not make it yourself
-- Change more parts of the plugin to be async and concurrent
-- Add a prefix line to the messages.yml
-- Upgrade the API so it is type-safe
-- Add per-world chat format support
-- Change the permission system to be more explicit, so way more permissions!
-- Add FastStats metrics for usage tracking
 
 ## Planned Features (To Add)
 
