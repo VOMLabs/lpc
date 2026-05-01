@@ -33,3 +33,14 @@ error:
 # Item placeholder
 item:
   no-item: "Air"
+
+# Private Message (MSG) system
+msg:
+  usage: "<red>Usage: /msg <player> <message> or /msg toggle</red>"
+  player-not-found: "<red>Player not found: %player%</red>"
+  disabled: "<yellow>%player% has private messages disabled.</yellow>"
+  ignored: "<yellow>%player% has ignored you.</yellow>"
+  toggle-on: "<green>Private messages enabled!</green>"
+  toggle-off: "<green>Private messages disabled!</green>"
+  send: "<gray>[Me -> %player%]<reset> %message%"
+  receive: "<gray>[%player% -> Me]<reset> %message%"

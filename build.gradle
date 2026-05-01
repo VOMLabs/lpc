@@ -3,7 +3,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
-group = 'de.ayont'
+group = 'com.vomlabs.lpcmmx'
 version = '3.6.9'
 
 repositories {
@@ -27,6 +27,10 @@ repositories {
     maven {
         name = "mongodb"
         url = "https://oss.sonatype.org/content/repositories/releases/"
+    }
+    maven {
+        name = "faststatsReleases"
+        url = "https://repo.faststats.dev/releases"
     }
 }
 
@@ -55,6 +59,9 @@ dependencies {
 
     // JNI / Native support
     compileOnly "org.graalvm.sdk:graal-sdk:24.1.1"
+
+    // FastStats metrics
+    implementation "dev.faststats.metrics:bukkit:1.0.0"
 }
 
 // C++ Native library compilation

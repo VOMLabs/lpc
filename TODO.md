@@ -40,12 +40,11 @@
 - Upgrade the API so it is type-safe
 - Add per-world chat format support
 - Change the permission system to be more explicit, so way more permissions!
+- Add FastStats metrics for usage tracking
 
 ## Planned Features (To Add)
 
-- Add FastStats metrics for usage tracking
 - Add per-player chat format overrides via permissions or `/lpc` command
 - Add chat logging to file for server moderation
 - Add support for Minecraft 26.1.0+ versions
 - Implement chat preview feature for Paper 1.21+
-- Add FastStats metrics for usage tracking

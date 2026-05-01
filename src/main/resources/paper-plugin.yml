@@ -1,7 +1,7 @@
 name: LPC MiniMessage X
-version: '${version}'
+version: "${version}"
 main: com.vomlabs.lpcmmx.Main
-api-version: '1.21'
+api-version: "1.21"
 authors: [ItzzMateo, VOMLabs]
 depend: [LuckPerms]
 softdepend: [PlaceholderAPI, Vault]
@@ -12,6 +12,10 @@ commands:
     description: Main LPC command for reload and mute
     usage: "Usage: /lpc <reload|mute> [player]"
     aliases: [lpcx]
+  msg:
+    description: Send private messages to other players
+    usage: "Usage: /msg <player> <message> or /msg toggle"
+    aliases: [message, tell, w, whisper]
 
 permissions:
   lpc.*:
@@ -22,6 +26,7 @@ permissions:
       lpc.chatcolor: true
       lpc.itemplaceholder: true
       lpc.mute.*: true
+      lpc.msg.*: true
       lpc.admin: true
 
   lpc.reload:
@@ -43,6 +48,13 @@ permissions:
       lpc.mute: true
       lpc.mute.toggle: true
       lpc.mute.list: true
+
+  lpc.msg.*:
+    description: All private message permissions
+    default: true
+    children:
+      lpc.msg: true
+      lpc.msg.toggle: true
 
   lpc.mute:
     description: Allows muting/unmuting players for yourself

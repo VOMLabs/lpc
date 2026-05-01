@@ -45,6 +45,8 @@
 - **C++ Native API** – high-performance JNI implementation (falls back to Java)
 - **Discord webhook integration** – DiscordSRV support + direct webhooks
 - **Chat logging** – daily rotating log files for moderation
+- **Private messages (MSG)** – send messages to players with toggle support
+- **FastStats metrics** – usage tracking for plugin improvements
 - Group and track-specific chat formats
 - Optional support for PlaceholderAPI
 - **Vault economy integration** – `%balance%` / `<balance>` and `%balance-formatted%` / `<balance-formatted>` placeholders
@@ -53,7 +55,7 @@
 - Customizable messages in `messages.yml` with prefix support
 - JSON Schema validation for `config.yml` and `paper-plugin.yml`
 - Modern Paper plugin format (`paper-plugin.yml`)
-- **Explicit permission system** – `lpc.*`, `lpc.admin`, `lpc.mute.*`, etc.
+- **Explicit permission system** – `lpc.*`, `lpc.admin`, `lpc.mute.*`, `lpc.msg.*`, etc.
 
 ---
 
